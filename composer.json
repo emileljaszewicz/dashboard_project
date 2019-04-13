@@ -1,0 +1,17 @@
+{
+    "name": "e/mvc",
+    "authors": [
+        {
+            "name": "Emil Eljaszewicz",
+            "email": "emil-eljaszewicz@o2.pl"
+        }
+    ],
+    "require": {
+        "wenzhixin/bootstrap-table": "^1.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "": ""
+        }
+    }
+}

@@ -1,0 +1,64 @@
+.pluginAdminContainer {
+  font-size: 14px;
+}
+.pluginAdminContainer .adminNavigation {
+  padding-top: 20px;
+  height: 100%;
+  min-width: 200px;
+  text-align: left;
+  border-right: 1px solid silver;
+}
+.pluginAdminContainer .adminNavigation .link {
+  display: block;
+  padding: 5px 20px 5px 20px;
+  text-decoration: none;
+  font-size: 15px;
+  color: black;
+  cursor: pointer;
+}
+.pluginAdminContainer .adminNavigation .link:hover {
+  background: #e7e7e7;
+}
+.pluginAdminContainer .adminNavigation div.active {
+  color: #8c8c8c;
+  cursor: default;
+}
+.pluginAdminContainer .pageTitle {
+  display: inline-block;
+  width: auto;
+  font-size: 17px;
+  padding: 0px 40px 5px 40px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid silver;
+}
+.pluginAdminContainer .pluginContainer {
+  margin-top: 10px;
+  padding: 5px;
+  border: 1px solid silver;
+}
+.pluginAdminContainer .pluginContainer .plugin-cont-header, .pluginAdminContainer .pluginContainer .plugin-cont-body, .pluginAdminContainer .pluginContainer .plugin-cont-actions {
+  padding: 5px;
+}
+.pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name b {
+  margin-right: 20px;
+}
+.pluginAdminContainer .pluginContainer .plugin-cont-body .details, .pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name, .pluginAdminContainer .pluginContainer .plugin-cont-actions .actions {
+  display: table;
+  width: 100%;
+}
+.pluginAdminContainer .pluginContainer .plugin-cont-body .details .label, .pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name .label, .pluginAdminContainer .pluginContainer .plugin-cont-actions .actions .label {
+  display: table-cell;
+  width: 10%;
+  font-weight: bold;
+}
+.pluginAdminContainer .pluginContainer .plugin-cont-body .details .description, .pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name .description, .pluginAdminContainer .pluginContainer .plugin-cont-actions .actions .description {
+  display: table-cell;
+  width: 90%;
+}
+.pluginAdminContainer .pluginContainer .plugin-cont-body .details .description button, .pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name .description button, .pluginAdminContainer .pluginContainer .plugin-cont-actions .actions .description button {
+  font-size: 10px;
+  padding: 3px 5px 3px 5px;
+  margin-right: 10px;
+}
+
+/*# sourceMappingURL=mainPluginStyles.css.map */

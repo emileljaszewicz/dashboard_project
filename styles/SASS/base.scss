@@ -1,6 +1,9 @@
+body{
+  background: #559fff;
+}
 .animate-panel{
-  width:50px;
-  height:50px;
+  width:100px;
+  height:100px;
   margin-right:10px;
   margin-bottom:10px;
   display:none;
@@ -10,11 +13,32 @@
 .panel-content{
   width:100%;
   height:100%;
-  background:red;
   z-index: 1;
 }
 .absolute-window{
-  background:blue;
+  background:url('../img/bgTransparent.png');
+  padding:1px;
   position:absolute;
   z-index: 2;
+  border: 1px solid #4761ff;
+}
+
+.login-panel-styles{
+  @media only screen and (min-width : 520px) {
+    width: 60%;
+    padding:30px;
+  }
+  @media only screen and (max-width : 519px) {
+    width: 100%;
+    padding:10px;
+  }
+  background: white;
+  border: 2px solid #2e7fff;
+  label{
+    color:black;
+  }
+}
+.dashboard-container{
+  width:95%;
+  margin: 10px auto;
 }
