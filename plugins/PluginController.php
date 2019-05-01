@@ -9,6 +9,7 @@ use Entities\Panels;
 
 class PluginController extends Controller
 {
+    private $headerScripts = [];
     protected function render($name, $data = null){
         $pluginInstance = $this->getPanelEntityObject()->getPluginInstance();
         $pluginPath = $pluginInstance->pluginPath();
@@ -22,6 +23,23 @@ class PluginController extends Controller
         }
         return $a;
     }
+    protected function appendHeaderScripts($data = []){
+        $pluginInstance = $this->getPanelEntityObject()->getPluginInstance();
+        $pluginPath = $pluginInstance->pluginPath();
+        if(array_key_exists('styles', $data)){
+            foreach($data['styles'] as $dataStylePath){
+                $this->headerScripts[] = '<link rel="stylesheet" type="text/css" href="'.$pluginPath."/CSS/".$dataStylePath.'">';
+            }
+        }
+        if(array_key_exists('scripts', $data)){
+            foreach($data['scripts'] as $dataScriptPath){
+                $this->headerScripts[] = '<script src="'.$pluginPath."/js/".$dataScriptPath.'" ></script>';
+            }
+        }
+    }
+    public function printHeaderScripts(){
+        return implode(PHP_EOL, $this->headerScripts).PHP_EOL;
+    }
     protected function getPanelEntityObject(){
         return new Panels(["panelId" => $this->postData['panelId']]);
     }
@@ -30,7 +48,7 @@ class PluginController extends Controller
 
         return $routeCollection->getRoutes($this);
     }
-    private function pharseHTML($code, $data) {
+    protected function pharseHTML($code, $data) {
 
         $tmp = tmpfile ();
         $tmpf = stream_get_meta_data ( $tmp );

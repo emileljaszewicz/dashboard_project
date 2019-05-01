@@ -24,15 +24,14 @@ class UsersCreator extends QueryBuilder
     public function getUserRankObject(){
         $pdoData = $this->userData;
         $userRanks = new Userranks(["userRankId" => $pdoData['userRankId']]);
-        $userRankName = "\\userranks\\".$userRanks->getRankName();
-        $userRankObject = new $userRankName();
 
-        if(is_object($userRankObject)) {
-
+        if($userRanks->getRankName() !== null) {
+            $userRankName = "\\userranks\\".$userRanks->getRankName();
+            $userRankObject = new $userRankName();
             return $userRankObject;
         }
         else{
-            return false;
+            return new \userranks\Owner();
         }
     }
 }

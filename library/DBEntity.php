@@ -127,10 +127,16 @@ class DBEntity
         return $queryBuilder->execQuery();
     }
     public function remove(){
+
+
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->createQueryForTable($this->getEntityName());
         $primaryKey = $queryBuilder->getTableKeyData('PRIMARY')[0]["Column_name"];
-        $queryBuilder->prepareData($primaryKey, $this->rowId[$primaryKey]);
+
+        $mn = 'get'.$this->getClassProperties()[$primaryKey];
+
+        $queryBuilder->prepareData($primaryKey, $this->$mn());
+
         $queryBuilder->removeData();
         $queryBuilder->execQuery();
 

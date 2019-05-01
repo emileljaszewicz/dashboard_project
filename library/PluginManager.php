@@ -22,11 +22,11 @@ class PluginManager
 
     public function pluginParams(){
         $this->pluginParams = [
-            "pluginInfo" => $this->plugin->pluginInfo(),
-            "panelImage" => $this->plugin->panelImage(),
-            "actionResponse" => $this->plugin->getUrlAction(),
-            "pluginPath" => $this->plugin->pluginPath(),
-            "pluginClassName" => $this->plugin->getPluginClassName(),
+//            "pluginInfo" => $this->plugin->pluginInfo(),
+//            "panelImage" => $this->plugin->panelImage(),
+//            "pluginPath" => $this->plugin->pluginPath(),
+//            "pluginClassName" => $this->plugin->getPluginClassName(),
+            "actionResponse" => $this->plugin->getUrlAction()
         ];
 
         return $this->pluginParams;

@@ -7,6 +7,7 @@ use library\RequestManager;
 use library\SessionManager;
 use library\UsersCreator;
 use library\ViewManager;
+use Rakit\Validation\Validator;
 
 abstract class Controller extends ViewManager
 {
@@ -68,5 +69,8 @@ abstract class Controller extends ViewManager
         $usersCreator->findUser(['userId' => $sessionManager->getSessionData('userId')]);
 
         return $usersCreator;
+    }
+    protected function getValidator($customMessages = []){
+        return new Validator($customMessages);
     }
 }

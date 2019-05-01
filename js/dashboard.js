@@ -4,7 +4,7 @@ function printPanels() {
 
     ajaxRequest.onreadystatechange = function () {
         var $pageLoader = $('#loader');
-        $pageLoader.css({"width":"1px", "height":"1px"});
+        $pageLoader.css({"width":"100px", "height":"100px"});
         if(this.readyState == 4 && this.status == 200){
             $pageLoader.appendLoadingSpinner(false);
             var responseData = this.responseText;
@@ -36,7 +36,7 @@ function panelModify(response, $element){
     $elementDiv.click(function(e){
         var floatedDif = $('.absolute-window');
         e.stopPropagation();
-        e.preventDefault();
+        // e.preventDefault();
         var divs = $('.panel-content');
         if(enabled === false) {
             for (var j = 0; j < divs.length; j++) {
@@ -62,7 +62,7 @@ function panelModify(response, $element){
 
     return $element;
 }
-function getPanelData($container, $url, containerData = null){
+function getPanelData($container, $url, containerData = null, ){
     var ajaxRequest = ajaxFunction();
     var $loadSpinner = $('<div id="loadSpinner"></div>');
     var data = new FormData();
@@ -82,6 +82,8 @@ function getPanelData($container, $url, containerData = null){
 
         }
         else{
+
+
                 var $lS = $loadSpinner.appendLoadingSpinner(true);
                 $lS.attr('style', $lS.find('div').attr('style'));
                 $lS.css({
@@ -95,12 +97,13 @@ function getPanelData($container, $url, containerData = null){
     ajaxRequest.open("POST", "index.php?task=panel&action=showPanelContent&ajaxAction="+$url, true);
     ajaxRequest.send(data);
 }
-function pluginAction($url, containerData = null, async = true){
+function pluginAction($url, containerData = null, async = true, returnResponse = true){
     var responseContent = null;
     var ajaxRequest = ajaxFunction();
     var data = new FormData();
     data.append('panelId', containerData.panelId);
     data.append('data', JSON.stringify(containerData));
+    data.append('response', returnResponse);
 
     ajaxRequest.onreadystatechange = function () {
         if(this.readyState == 4 && this.status == 200){
@@ -117,6 +120,31 @@ function pluginAction($url, containerData = null, async = true){
 
     }
     ajaxRequest.open("POST", "index.php?task=panel&action=getPluginAction&pluginAction="+$url, async);
+    ajaxRequest.send(data);
+
+    return responseContent;
+}
+function ajaxAction(url, async = true, requestData=null){
+    var responseContent = null;
+    var ajaxRequest = ajaxFunction();
+    var data = new FormData();
+    data.append('data', requestData);
+
+    ajaxRequest.onreadystatechange = function () {
+        if(this.readyState == 4 && this.status == 200){
+            if(async === false) {
+                var responseData = this.responseText;
+
+                responseContent = responseData;
+            }
+
+        }
+        else{
+
+        }
+
+    }
+    ajaxRequest.open("POST", url, async);
     ajaxRequest.send(data);
 
     return responseContent;
@@ -166,8 +194,12 @@ jQuery.fn.sizeBack = function(){
 
 $(document).ready(function(){
     printPanels();
+    $('.logout').click(function(){
+       ajaxAction("index.php?task=panel&action=logout", false);
+       window.location = window.location.href;
+    }).tooltip();
+
 })
     .click(function(){
-        $('.absolute-window')
-            .sizeBack();
+        $('.absolute-window').sizeBack();
     });

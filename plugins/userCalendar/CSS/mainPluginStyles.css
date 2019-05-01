@@ -1,0 +1,14 @@
+.callendarContainer {
+  width: 90%;
+  margin: 0px auto;
+}
+.callendarContainer .container-title-bar {
+  display: inline-block;
+  width: auto;
+  font-size: 17px;
+  padding: 0px 40px 5px 40px;
+  margin-top: 10px;
+  border-bottom: 1px solid silver;
+}
+
+/*# sourceMappingURL=mainPluginStyles.css.map */

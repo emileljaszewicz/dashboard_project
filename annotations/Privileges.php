@@ -27,6 +27,15 @@ class Privileges implements AnnotationInterface
             return ["access" => false];
         }
     }
+    public function isLogged(){
+        $sessionManager = new SessionManager();
+        if(empty($sessionManager->getSessionData('userId'))){
+            return ["access" => false];
+        }
+        else{
+            return ["access" => true];
+        }
+    }
     public function grantedUser($ObjectPath){
         $rankObject = new $ObjectPath();
         $sessionManager = new SessionManager();

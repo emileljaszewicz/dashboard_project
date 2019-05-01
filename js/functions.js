@@ -1,6 +1,22 @@
 function getPanelContainer(){
     return $('.absolute-window');
 }
+dateFormatting = function(date){
+    var dateOb, day, month, year;
+    dateOb = new Date(date);
+    day = dateOb.getDate();
+    month = dateOb.getMonth()+1;
+    year = dateOb.getFullYear();
+
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+    return year+'-'+month+'-'+day;
+}
 jQuery.fn.getElementParams = function($jqueryObject = null){
     var documentWidth = null;
     var documentHeight = null;
@@ -31,9 +47,9 @@ jQuery.fn.getElementParams = function($jqueryObject = null){
 }
 jQuery.fn.appendLoadingSpinner = function($value){
     if($value === true){
-       var $spinnerContainer = $('<div></div>');
+       var $spinnerContainer = $('<img src="styles/img/spinner.gif" width="100">');
        $spinnerContainer.addClass('spinner-border text-light');
-       $spinnerContainer.css({"width":"50px", "height":"50px"});
+       $spinnerContainer.css({"width":"100px", "height":"100px"});
        $spinnerContainer.attr('role', 'status');
        $(this).append($spinnerContainer);
 

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,mBAAmB;EACjB,KAAK,EAAC,GAAG;EACT,MAAM,EAAE,QAAQ;;AAChB,wCAAoB;EAClB,OAAO,EAAC,YAAY;EACpB,KAAK,EAAC,IAAI;EACV,SAAS,EAAE,IAAI;EACf,OAAO,EAAE,iBAAiB;EAC1B,UAAU,EAAC,IAAI;EACf,aAAa,EAAC,gBAAgB",
+"sources": ["../SASS/mainPluginStyles.scss"],
+"names": [],
+"file": "mainPluginStyles.css"
+}

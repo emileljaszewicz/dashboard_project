@@ -7,7 +7,9 @@ use entityExtensions\RankPanelsExtension;
 use library\PluginManager;
 use userranks\Administrator;
 
-
+/**
+ * @Privileges(isLogged())
+ */
 class panelController extends Controller
 {
     public function index(){
@@ -38,7 +40,7 @@ class panelController extends Controller
                     continue;
                 }
                 else if($pluginObject !== null) {
-                    $panelsArray[] = ['divHtml' => '<div class="animate-panel"><div id="panel_' . $panesId . '" class="panel-content"><img src="' . $pluginObject->pluginPath() . '/' . $pluginObject->panelImage() . '" style="position:absolute" width="100"/></div></div>', 'widthAfter' => $pluginObject->pluginWidth(), 'heightAfter' => $pluginObject->pluginHeight(), 'panelId' => $panesId];
+                    $panelsArray[] = ['divHtml' => '<div class="animate-panel"><div id="panel_' . $panesId . '" class="panel-content"><img src="' . $pluginObject->pluginPath() . '/' . $pluginObject->panelImage() . '" style="position:absolute" width="100" height="100"/></div></div>', 'widthAfter' => $pluginObject->pluginWidth(), 'heightAfter' => $pluginObject->pluginHeight(), 'panelId' => $panesId];
                 }
 
         }
@@ -54,14 +56,25 @@ class panelController extends Controller
 
         //echo json_encode($pluginManager->pluginParams());
     }
-
+    /**
+     * @Privileges(isMethod(POST))
+     * @SkipSearching(skip(true))
+     */
+    public function logout(){
+        session_destroy();
+    }
+    /**
+     * @Privileges(isMethod(POST))
+     * @SkipSearching(skip(true))
+     */
     public function getPluginAction(){
 
         $panels = new Panels(["panelId" => $this->postData['panelId']]);
         $pluginManager = new PluginManager($panels->getPluginInstance());
 
         $pluginManager->getActionForPlugin($_GET['pluginAction']);
-
-        echo json_encode($pluginManager->pluginParams());
+        if($this->postData['response'] === 'true') {
+            echo json_encode($pluginManager->pluginParams());
+        }
     }
 }
