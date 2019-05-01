@@ -65,9 +65,9 @@ $container.find('.next').click(function(){
             toSaveData.eventDate = dateFormatting(eventYear+'-'+eventMonth+'-'+eventDay);
             toSaveData.panelId = panelId[1];
             $modalForm.find('.modalData').each(function(){
-                if($(this).val().length > 0) {
+
                     formData[$(this).attr('name')] = $(this).val();
-                }
+
             });
             toSaveData.formData = formData;
 

@@ -10,6 +10,7 @@ class QueryBuilder
     public $tableName;
     private $query;
     private $pdo;
+    private $queryBindValues = [];
     public function __construct()
     {
         $pdoob = new MySQLConnect();
@@ -37,7 +38,8 @@ class QueryBuilder
         $values = [];
         foreach ($this->mysqlData as $field => $data){
             $tablefields[] = $field;
-            $values[] = $this->addQuotes($data);
+            $values[] = ":$field";
+            $this->queryBindValues[":$field"] = $data;
         }
         $this->query = "Insert Into $this->tableName (".implode(',', $tablefields).") Values(".implode(',', $values).");";
 
@@ -46,7 +48,8 @@ class QueryBuilder
     public function updateData(){
         $queryfields =  [];
         foreach ($this->mysqlData as $field => $data){
-            $queryfields[] = "$field = ".$this->addQuotes($data);
+            $queryfields[] = "$field = :".$field;
+            $this->queryBindValues[":$field"] = $data;
         }
         $this->query = "Update $this->tableName Set ".implode(', ', $queryfields);
         return $this->query;
@@ -58,7 +61,8 @@ class QueryBuilder
             if(!in_array($field, $removeColls)) {
                 $removeColls[] = $field;
             }
-            $removeFields[] = $this->addQuotes($data);
+            $removeFields[] = ":$data";
+            $this->queryBindValues[":$data"] = $data;
         }
 
         $this->query = "DELETE FROM $this->tableName WHERE (".implode(",", $removeColls).") IN (".implode(",", $removeFields).");";
@@ -72,7 +76,9 @@ class QueryBuilder
             if(is_int($field)){
                 throw new \Exception("Bad array arguments. Mysql field name must be a string !!");
             }
-            $queryfields[] = "$field = ".$this->addQuotes($data);
+            //$queryfields[] = "$field = ".$this->addQuotes($data);
+            $queryfields[] = "$field = :$field";
+            $this->queryBindValues[":$field"] = $data;
         }
 
         $this->query .= " Where ".implode(' And ', $queryfields);
@@ -90,9 +96,14 @@ class QueryBuilder
             $q = str_replace('\\', '\\\\', $this->query) . ';';
 
             $dataToSent = $this->pdo->prepare($q);
+            foreach ($this->queryBindValues as $valueName => $valueToExecute){
+                $dataToSent->bindValue($valueName, str_replace('"', "'",$valueToExecute));
+            }
+
             if(!$dataToSent->execute()){
                 throw new \Exception($dataToSent->errorInfo()[2]);
             }
+
             return $dataToSent;
         }
         catch (\PDOException $exception){

@@ -3,7 +3,6 @@ namespace controller;
 
 use Entities\Panels;
 use Entities\RankPanels;
-use entityExtensions\RankPanelsExtension;
 use library\PluginManager;
 use userranks\Administrator;
 
@@ -33,6 +32,7 @@ class panelController extends Controller
 
         $panelsArray = [];
         foreach($panelsId as  $panesId){
+
             $panels = new Panels(['panelId' => $panesId]);
 
                 $pluginObject = $panels->getPluginInstance();
