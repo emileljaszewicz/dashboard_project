@@ -18,8 +18,22 @@ $(document).ready(function() {
 
             responseResult = JSON.parse(pluginAction('saveData', requestData, false));
             if(responseResult.actionResponse !== true){
+                var responseHTML = '';
+                for(var alert in responseResult.actionResponse){
+                    var $inputContainer = $container.find('#'+alert).parent().closest('.positionContainer');
+                    var labelContent = $inputContainer.find('.profileLabel');
+                   var message = responseResult.actionResponse[alert].toLowerCase().split(alert.toLowerCase());
 
+
+                    responseHTML += "Field "+labelContent.text()+" "+message[1]+"</br>";
+
+                }
+
+                $('.panel-alert').html(responseHTML).show('1000');
                 return false;
+            }
+            else{
+                $('.panel-alert').hide('500');
             }
         }
     });
@@ -43,6 +57,7 @@ $(document).ready(function() {
 
                     responseHTML += "Field "+labelContent.text()+" "+message[1]+"</br>";
                 }
+
                 $('.panel-alert').html(responseHTML).show('1000');
                 return false;
             }

@@ -17,6 +17,25 @@ abstract class Controller extends ViewManager
         $this->postData = $_POST;
     }
 
+    public function getMessages($messageType){
+        $sessionManager = $this->getSessionManager();
+        $message = $sessionManager->getSessionData($messageType);
+
+        $sessionManager->remove($messageType);
+        if(($message !== null)) {
+
+            return implode(PHP_EOL, $message);
+        }
+        else{
+            return null;
+        }
+    }
+    protected function setMessage($messageType, $essageContent){
+        $errors = [];
+        $sessionManager = $this->getSessionManager();
+        $errors[$messageType][] = $essageContent;
+        $sessionManager->addSessionData($messageType, $errors[$messageType]);
+    }
     protected function loadmodel($name, $path = 'model/'){
         $path = $path.$name.'Model.php';
         $modelclassName = $name.'Model';

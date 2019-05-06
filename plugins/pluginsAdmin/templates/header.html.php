@@ -7,12 +7,9 @@
     <?= $this->printHeaderScripts(); ?>
 </head>
 <body>
-<div class="container pluginAdminContainer" style="background: white; min-width:300px; height: 100%; padding:0px;">
-<div style="height: 100%;float:left;">
-    <div class="adminNavigation" style="background:whitesmoke;">
-        <div  class="link" data-action="index">Lista pluginów</div>
-    </div>
+<div class="container pluginAdminContainer">
+<div class="navigationContainer">
+    <div  class="link" data-action="index">Lista pluginów</div>
 </div>
-<div style="overflow-y:auto; height:100%">
-<div style="padding: 30px">
+<div class="content-container">
     <div class="pageTitle"><?php echo $this->getPageTitle() ?></div>

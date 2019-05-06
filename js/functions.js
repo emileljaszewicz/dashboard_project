@@ -1,7 +1,7 @@
 function getPanelContainer(){
     return $('.absolute-window');
 }
-dateFormatting = function(date){
+ function dateFormatting(date){
     var dateOb, day, month, year;
     dateOb = new Date(date);
     day = dateOb.getDate();
@@ -16,6 +16,28 @@ dateFormatting = function(date){
     }
 
     return year+'-'+month+'-'+day;
+}
+function responsiveWidth($width){
+    var percentagle = new RegExp('[%]');
+    var resizeWidth =  parseInt($width);
+    var documentWidth = $(window).width();
+
+    if(percentagle.test($width)) {
+
+        resizeWidth = (documentWidth * resizeWidth) / 100;
+    }
+
+    return resizeWidth;
+}
+function responsiveHeight($height){
+    var percentagle = new RegExp('[%]');
+    var resizeHeight =  parseInt($height);
+    var documentHeight = $( window ).height();
+    if(percentagle.test($height)){
+        resizeHeight = (documentHeight*resizeHeight)/100;
+    }
+
+    return resizeHeight;
 }
 jQuery.fn.getElementParams = function($jqueryObject = null){
     var documentWidth = null;

@@ -1,14 +1,25 @@
+@mixin responsivePanelClassParams($minWidth, $maxWidth, $panelWidth){
+  @media only screen and (min-width : #{$minWidth}px) and (max-width : #{$maxWidth}px) {
+    width: #{$panelWidth}px;
+    height: #{$panelWidth}px;
+    margin-right:#{$panelWidth/2}px;
+    margin-bottom:#{($panelWidth/2)}px;
+    .responsive-panel {
+      width: #{$panelWidth}px;
+      height: #{$panelWidth}px;
+    }
+  }
+}
+
 body{
   background: #559fff;
 }
 .animate-panel{
-  width:100px;
-  height:100px;
-  margin-right:30px;
-  margin-bottom:30px;
   display:none;
   position:relative;
   float:left;
+  @include responsivePanelClassParams(1201, 3000, 80);
+  @include responsivePanelClassParams(0, 1200, 40);
 }
 .panel-content{
   width:100%;

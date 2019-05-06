@@ -112,8 +112,11 @@ class DBEntity
 
         foreach ($classProperties as $entityField => $value){
             $methodName = 'get'.$value;
-            if(!is_array($this->$methodName())) {
+            if(!is_array($this->$methodName()) && !is_object($this->$methodName())) {
                 $queryBuilder->prepareData($entityField, $this->$methodName());
+            }
+            else if(is_object($this->$methodName())){
+                $queryBuilder->prepareData($entityField, $this->$methodName()->getPrimaryKeyValue());
             }
         }
         if($this->rowId === null){
@@ -141,6 +144,14 @@ class DBEntity
         $queryBuilder->execQuery();
 
         return 1;
+    }
+    public function getPrimaryKeyValue(){
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->createQueryForTable($this->getEntityName());
+        $primaryKey = $queryBuilder->getTableKeyData('PRIMARY')[0]["Column_name"];
+        $primaryKeyFunctionName = 'get'.$this->getClassProperties()[$primaryKey];
+
+        return $this->$primaryKeyFunctionName();
     }
     private function getQueryBuilder(){
         $queryBuilderObject = new QueryBuilder();

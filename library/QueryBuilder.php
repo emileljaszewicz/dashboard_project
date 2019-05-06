@@ -41,7 +41,7 @@ class QueryBuilder
             $values[] = ":$field";
             $this->queryBindValues[":$field"] = $data;
         }
-        $this->query = "Insert Into $this->tableName (".implode(',', $tablefields).") Values(".implode(',', $values).");";
+        $this->query = "Insert Into ".strtolower($this->tableName)." (".implode(',', $tablefields).") Values(".implode(',', $values).");";
 
         return $this->query;
     }
@@ -97,7 +97,8 @@ class QueryBuilder
 
             $dataToSent = $this->pdo->prepare($q);
             foreach ($this->queryBindValues as $valueName => $valueToExecute){
-                $dataToSent->bindValue($valueName, str_replace('"', "'",$valueToExecute));
+                $dataToSent->bindValue($valueName, $valueToExecute);
+
             }
 
             if(!$dataToSent->execute()){

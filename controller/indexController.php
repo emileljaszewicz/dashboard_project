@@ -2,6 +2,7 @@
 namespace controller;
 
 
+use Entities\Userranks;
 use Entities\Users;
 use userranks\Owner;
 
@@ -19,6 +20,13 @@ class indexController extends Controller
         return $this->render('loginForm');
     }
 
+    public function register(){
+
+        $this->setPageTitle("Zaloguj się");
+        $this->appendHeaderScripts(["scripts" => ['js/loginPanel.js']]);
+        return $this->render('registerForm');
+    }
+
     /**
      * @Privileges(isMethod(POST))
      * @SkipSearching(skip(true))
@@ -32,32 +40,71 @@ class indexController extends Controller
             $sessionManager = $this->getSessionManager();
             $sessionManager->addSessionData('userId', $users->getUserId());
         }else{
-            //$validator = $this->getValidator();
-            $this->setError('loginError', "Nieprawidłowe dane");
-            $this->setError('passwordError', "Nieprawidłowe dane");
+            $validator = $this->getValidator(['required' => 'The field can not be empty', 'min' => 'Minimum length of characters is 6']);
+            $validation = $validator->make($_POST,[
+               'uLogin' => 'required',
+               'uPassword' => 'required|min:6'
+            ]);
+            $validation->validate();
+            if($validation->fails()) {
+                $errors = $validation->errors();
+
+                foreach ($errors->firstOfAll() as $error => $errorMessage) {
+                    $this->setMessage($error . 'Error', $errorMessage);
+                }
+            }
+            else{
+                $this->setMessage('otherErrors', "Incorrect login data");
+            }
+
         }
 
         $this->redirect('index.php');
     }
 
-    private function setError($errorType, $errorMessage){
-        $errors = [];
-        $sessionManager = $this->getSessionManager();
-        $errors[$errorType][] = $errorMessage;
-        $sessionManager->addSessionData($errorType, $errors[$errorType]);
-    }
+    /**
+     * @Privileges(isMethod(POST))
+     * @SkipSearching(skip(true))
+     */
+    public function registerInit(){
 
-    public function getErrors($errorType){
-        $sessionManager = $this->getSessionManager();
-        $err = $sessionManager->getSessionData($errorType);
+        $validator = $this->getValidator(['required' => 'The field can not be empty', 'min' => 'Minimum length of characters is 6']);
+        $validation = $validator->make($_POST,[
+            'uLogin' => 'required',
+            'uEmail' => 'required|regex:/^([a-zA-Z0-9\.\-_]{3,})@([a-zA-Z0-9]){2,}\.([a-zA-Z]){2,}$/',
+            'uPassword' => 'required|min:6',
+            'uConfirm' => 'required|same:uPassword',
+        ]);
+        $validation->validate();
+        if($validation->fails()) {
+            $errors = $validation->errors();
 
-        $sessionManager->remove($errorType);
-        if(($err !== null)) {
-
-            return implode(PHP_EOL, $err);
+            foreach ($errors->firstOfAll() as $error => $errorMessage) {
+                $this->setMessage($error . 'Error', $errorMessage);
+            }
+            return $this->redirect('index.php?task=index&action=register');
         }
         else{
-            return null;
+            $users = new Users();
+
+            if(in_array($result = $this->postData['uLogin'], $users->getLogin()) || in_array($result = $this->postData['uEmail'], $users->getEmail())){
+                $errorFieldName = array_flip($this->postData)[$result];
+                $this->setMessage($errorFieldName . 'Error', "Current ".ltrim(strtolower($errorFieldName), 'u')." ($result) already exists");
+            }
+            else {
+                $userRanks = new Userranks(['rankName' => 'Owner']);
+                $rankId = $userRanks->getUserRankId();
+                $users->setLogin($this->postData['uLogin']);
+                $users->setPassword(md5($this->postData['uPassword']));
+                $users->setActive(1);
+                $users->setUserRankId($rankId);
+                $users->save();
+                $this->setMessage('successMessages', 'On your email address has been sent confirmation email. Please confirm your registration and log in to page');
+
+                return $this->redirect('index.php?task=index&action=login');
+            }
+            return $this->redirect('index.php?task=index&action=register');
         }
     }
+
 }

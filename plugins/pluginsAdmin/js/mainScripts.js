@@ -1,7 +1,7 @@
 $(document).ready(function(){
     var $container = getPanelContainer();
 
-    $container.find('.adminNavigation .link').click(function(e){
+    $container.find('.navigationContainer .link').click(function(e){
         var linkAction = $(this).data('action');
 
         getPanelData($container, linkAction);

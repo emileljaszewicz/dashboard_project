@@ -1,61 +1,109 @@
 .pluginAdminContainer {
-  font-size: 14px;
-}
-.pluginAdminContainer .adminNavigation {
-  padding-top: 20px;
+  padding: 0px;
+  background: white;
   height: 100%;
-  min-width: 200px;
-  text-align: left;
-  border-right: 1px solid silver;
 }
-.pluginAdminContainer .adminNavigation .link {
-  display: block;
-  padding: 5px 20px 5px 20px;
+@media only screen and (min-width: 700px) {
+  .pluginAdminContainer .navigationContainer {
+    float: left;
+    width: 200px;
+    height: 100%;
+    border-right: 1px solid silver;
+  }
+  .pluginAdminContainer .navigationContainer .link {
+    display: block;
+    padding: 5px 20px 5px 20px;
+    font-size: 15px;
+  }
+  .pluginAdminContainer .content-container {
+    overflow-y: auto;
+  }
+  .pluginAdminContainer .content-container .pageTitle {
+    font-size: 17px;
+    margin-bottom: 30px;
+  }
+}
+@media only screen and (max-width: 699px) {
+  .pluginAdminContainer {
+    overflow-y: auto;
+  }
+  .pluginAdminContainer .navigationContainer {
+    border-bottom: 1px solid silver;
+  }
+  .pluginAdminContainer .navigationContainer .link {
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    font-size: 12px;
+  }
+  .pluginAdminContainer .content-container .pageTitle {
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
+}
+.pluginAdminContainer .navigationContainer {
+  background: whitesmoke;
+}
+.pluginAdminContainer .navigationContainer .link {
   text-decoration: none;
-  font-size: 15px;
   color: black;
   cursor: pointer;
 }
-.pluginAdminContainer .adminNavigation .link:hover {
+.pluginAdminContainer .navigationContainer .link:hover {
   background: #e7e7e7;
 }
-.pluginAdminContainer .adminNavigation div.active {
-  color: #8c8c8c;
-  cursor: default;
+.pluginAdminContainer .content-container {
+  height: 100%;
+  padding: 10px;
 }
-.pluginAdminContainer .pageTitle {
+.pluginAdminContainer .content-container .pageTitle {
   display: inline-block;
   width: auto;
-  font-size: 17px;
   padding: 0px 40px 5px 40px;
-  margin-bottom: 30px;
   border-bottom: 1px solid silver;
 }
-.pluginAdminContainer .pluginContainer {
+.pluginAdminContainer .content-container .pluginContainer {
   margin-top: 10px;
-  padding: 5px;
   border: 1px solid silver;
 }
-.pluginAdminContainer .pluginContainer .plugin-cont-header, .pluginAdminContainer .pluginContainer .plugin-cont-body, .pluginAdminContainer .pluginContainer .plugin-cont-actions {
+.pluginAdminContainer .content-container .pluginContainer .plugin-cont-header, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-body, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-actions {
   padding: 5px;
 }
-.pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name b {
+.pluginAdminContainer .content-container .pluginContainer .plugin-cont-header .plugin-name .label {
   margin-right: 20px;
+  color: black;
 }
-.pluginAdminContainer .pluginContainer .plugin-cont-body .details, .pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name, .pluginAdminContainer .pluginContainer .plugin-cont-actions .actions {
+.pluginAdminContainer .content-container .pluginContainer .plugin-cont-body .details, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-header .plugin-name, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-actions .actions {
   display: table;
   width: 100%;
 }
-.pluginAdminContainer .pluginContainer .plugin-cont-body .details .label, .pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name .label, .pluginAdminContainer .pluginContainer .plugin-cont-actions .actions .label {
+@media only screen and (min-width: 700px) {
+  .pluginAdminContainer .content-container .pluginContainer .plugin-cont-body .details .label, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-header .plugin-name .label, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-actions .actions .label {
+    width: 10%;
+    font-size: 13px;
+  }
+  .pluginAdminContainer .content-container .pluginContainer .plugin-cont-body .details .description, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-header .plugin-name .description, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-actions .actions .description {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 699px) {
+  .pluginAdminContainer .content-container .pluginContainer .plugin-cont-body .details .label, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-header .plugin-name .label, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-actions .actions .label {
+    width: 20%;
+    font-size: 11px;
+  }
+  .pluginAdminContainer .content-container .pluginContainer .plugin-cont-body .details .description, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-header .plugin-name .description, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-actions .actions .description {
+    width: 80%;
+    font-size: 12px;
+  }
+}
+.pluginAdminContainer .content-container .pluginContainer .plugin-cont-body .details .label, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-header .plugin-name .label, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-actions .actions .label {
   display: table-cell;
-  width: 10%;
   font-weight: bold;
+  color: black;
 }
-.pluginAdminContainer .pluginContainer .plugin-cont-body .details .description, .pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name .description, .pluginAdminContainer .pluginContainer .plugin-cont-actions .actions .description {
+.pluginAdminContainer .content-container .pluginContainer .plugin-cont-body .details .description, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-header .plugin-name .description, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-actions .actions .description {
   display: table-cell;
-  width: 90%;
 }
-.pluginAdminContainer .pluginContainer .plugin-cont-body .details .description button, .pluginAdminContainer .pluginContainer .plugin-cont-header .plugin-name .description button, .pluginAdminContainer .pluginContainer .plugin-cont-actions .actions .description button {
+.pluginAdminContainer .content-container .pluginContainer .plugin-cont-body .details .description button, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-header .plugin-name .description button, .pluginAdminContainer .content-container .pluginContainer .plugin-cont-actions .actions .description button {
   font-size: 10px;
   padding: 3px 5px 3px 5px;
   margin-right: 10px;

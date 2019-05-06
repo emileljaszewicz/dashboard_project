@@ -4,11 +4,11 @@
         <form action="saveEvent">
             <div class="form-group">
                 <label for="exampleInputEmail1">Nazwa wydarzenia</label>
-                <input type="text" class="form-control modalData" name="eventTitle" value="<?= $data['existedEvent']->getEventName() ?>">
+                <input type="text" class="form-control modalData" name="eventTitle" value="<?= htmlentities($data['existedEvent']->getEventName()) ?>">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Opis</label>
-                <textarea class="form-control modalData" rows="3" name="eventDescription"><?= $data['existedEvent']->getDescription() ?></textarea>
+                <textarea class="form-control modalData" rows="3" name="eventDescription"><?= htmlentities($data['existedEvent']->getDescription()) ?></textarea>
             </div>
             <div class="buttons">
                 <button type="submit" class="btn btn-default saveEvent">Zapisz</button>

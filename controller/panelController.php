@@ -40,7 +40,7 @@ class panelController extends Controller
                     continue;
                 }
                 else if($pluginObject !== null) {
-                    $panelsArray[] = ['divHtml' => '<div class="animate-panel"><div id="panel_' . $panesId . '" class="panel-content"><img src="' . $pluginObject->pluginPath() . '/' . $pluginObject->panelImage() . '" style="position:absolute" width="100" height="100"/></div></div>', 'widthAfter' => $pluginObject->pluginWidth(), 'heightAfter' => $pluginObject->pluginHeight(), 'panelId' => $panesId];
+                    $panelsArray[] = ['divHtml' => '<div class="animate-panel"><div id="panel_' . $panesId . '" class="panel-content"><img src="' . $pluginObject->pluginPath() . '/' . $pluginObject->panelImage() . '" style="position:absolute" class="responsive-panel" /></div></div>', 'widthAfter' => $pluginObject->pluginWidth(), 'heightAfter' => $pluginObject->pluginHeight(), 'panelId' => $panesId];
                 }
 
         }
