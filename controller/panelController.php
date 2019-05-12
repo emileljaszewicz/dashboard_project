@@ -26,17 +26,16 @@ class panelController extends Controller
             $panelsId = $allowedPanels->getPanelId();
         }
         else{
-            $allowedPanels = new RankPanels(['userRankId' => $loggedUserObject->getUserObiect()->getUserId()]);
+            $allowedPanels = new RankPanels(['userRankId' => $loggedUserObject->getUserObiect()->getUserRankId()->getUserRankId()]);
             $panelsId = $allowedPanels->getPanelId();
         }
-
         $panelsArray = [];
         foreach($panelsId as  $panesId){
 
             $panels = new Panels(['panelId' => $panesId]);
 
                 $pluginObject = $panels->getPluginInstance();
-                if(($panels->getActive() === '0') && !($loggedUserObject->getUserRankObject() instanceof Administrator)){
+                if(($panels->getActive() === '0') && !($loggedUserObject->getUserRankObject() instanceof Administrator) &&($loggedUserObject->getUserObiect()->getUserRankId()->getActive() === '0')){
                     continue;
                 }
                 else if($pluginObject !== null) {

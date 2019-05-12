@@ -54,11 +54,37 @@ class UserRanksController extends PluginController
     }
     public function savePrivileges(){
         $jsonData= json_decode($this->postData['data'], true);
-        $rankPanels = new RankPanels(['panelId' => (int)$jsonData['rankId']]);
-
-        var_dump($rankPanels->getPrimaryKeyName());
+        $rankPanels = new RankPanels(['userRankId' => (int)$jsonData['rankId']]);
 
 
+        if(is_array($rankPanels->getPanelId())){
+            $rankPrivileges = $rankPanels->getPanelId();
+        }
+        else{
+            $rankPrivileges[] = $rankPanels->getPanelId();
+        }
 
+        foreach ($jsonData['checkboxes'] as $checkboxInfo){
+            if(in_array($checkboxInfo['id'], $rankPrivileges)){
+                if($checkboxInfo['checked'] === false){
+                    $queryBuilder = $this->queryBuilder();
+                    $queryBuilder->createQueryForTable($rankPanels->getEntityName());
+                    $queryBuilder->prepareData('userRankId', (int)$jsonData['rankId']);
+                    $queryBuilder->prepareData('panelId', $checkboxInfo['id']);
+                    $queryBuilder->removeData();
+                    $queryBuilder->execQuery();
+                }
+            }
+            else{
+                if($checkboxInfo['checked'] === true){
+                    $queryBuilder = $this->queryBuilder();
+                    $queryBuilder->createQueryForTable($rankPanels->getEntityName());
+                    $queryBuilder->prepareData('userRankId', (int)$jsonData['rankId']);
+                    $queryBuilder->prepareData('panelId', $checkboxInfo['id']);
+                    $queryBuilder->insertData();
+                    $queryBuilder->execQuery();
+                }
+            }
+        }
     }
 }

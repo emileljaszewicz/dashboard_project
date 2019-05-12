@@ -16,7 +16,7 @@ $(document).ready(function(){
        }
    });
     $panelContainer.find('.settings').click(function(){
-        var $modal, data, rank_id, modalParams, $modalContainer;
+        var $modal, data, rank_id, modalParams, $modalContainer, $checkboxes, count, checkboxArr;
         rank_id = $(this).closest('.panel').data('id');
         data = {
             panelId: panel_id,
@@ -32,6 +32,20 @@ $(document).ready(function(){
                     $modalContainer.remove();
                 }
                 else if ($(this).hasClass('save')) {
+                    count = 0;
+                    checkboxArr = {};
+                    $checkboxes = $modalContainer.find('input[type=checkbox]');
+                    $checkboxes.each(function(){
+                        if($(this).is(':checked')) {
+                            checkboxArr[count] = {id: $(this).val(), checked: true};
+                        }
+                        else{
+                            checkboxArr[count] = {id: $(this).val(), checked: false};
+                        }
+                        count++;
+                    });
+                    data.checkboxes = checkboxArr
+                    console.log(data);
                     pluginAction('savePrivileges', data);
                 }
             });

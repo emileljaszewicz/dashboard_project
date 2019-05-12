@@ -50,7 +50,7 @@ class DBEntity
         }
     }
 
-    private function getEntityName(){
+    public function getEntityName(){
 
         $classNameToArray = explode('\\',get_class($this));
         $className = $classNameToArray[sizeof($classNameToArray)-1];
@@ -116,7 +116,7 @@ class DBEntity
                 $queryBuilder->prepareData($entityField, $this->$methodName());
             }
             else if(is_object($this->$methodName())){
-                $queryBuilder->prepareData($entityField, $this->$methodName()->getPrimaryKeyValue());
+                $queryBuilder->prepareData($entityField, $this->$methodName()->getPrimaryKeyValue()[0]['keyValue']);
             }
         }
         if($this->rowId === null){
@@ -148,24 +148,29 @@ class DBEntity
     public function getPrimaryKeyName(){
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->createQueryForTable($this->getEntityName());
-        $primaryKey = $queryBuilder->getTableKeyData('PRIMARY')[0]["Column_name"];
+        $primaryKey = array_column($queryBuilder->getTableKeyData('PRIMARY'), 'Column_name');
 
         return $primaryKey;
     }
     public function getPrimaryKeyValue(){
-        $queryBuilder = $this->getQueryBuilder();
-        $queryBuilder->createQueryForTable($this->getEntityName());
-        $primaryKey = $queryBuilder->getTableKeyData('PRIMARY')[0]["Column_name"];
-        $primaryKeyFunctionName = 'get'.$this->getClassProperties()[$primaryKey];
+        $primaryKeysFunctionValues = [];
 
-        return $this->$primaryKeyFunctionName();
+        foreach ($this->getPrimaryKeyName() as $primaryKey) {
+            $primaryKeyFunctionName = 'get' . $this->getClassProperties()[$primaryKey];
+
+            $primaryKeysFunctionValues[] = ["keyName" => $primaryKey, "keyValue" => $this->$primaryKeyFunctionName()];
+        }
+        return $primaryKeysFunctionValues;
     }
     public function getCollection(){
-        $arrayCollection = new ArrayCollection();
-        foreach ($this->getPrimaryKeyValue() as $arrayIndex => $entityKeyId){
-            $selfObjectInstance = $this->__construct([$this->getPrimaryKeyName() => $entityKeyId]);
 
-            $arrayCollection->add(serialize($this));
+        $arrayCollection = new ArrayCollection();
+        foreach ($this->getPrimaryKeyValue() as $tableKeyData){
+            foreach ($tableKeyData['keyValue'] as $primaryKeyValue) {
+                $this->__construct([$tableKeyData['keyName'] => $primaryKeyValue]);
+
+                $arrayCollection->add(serialize($this));
+            }
         }
 
         return $arrayCollection;

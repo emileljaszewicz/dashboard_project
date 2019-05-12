@@ -8,7 +8,7 @@
     </div>
     <div class="form-group <?= !empty($emailError = $this->getMessages('uEmailError'))? 'has-error': ''?>" >
          <label>Email</label>
-        <input type="text" name="uEmail" class="form-control"   placeholder="Podaj login">
+        <input type="text" name="uEmail" class="form-control"   placeholder="Podaj email">
         <div class="control-label "><?= $emailError;?></div>
     </div>
     <div class="form-group <?= (!empty($passwordError = $this->getMessages('uPasswordError'))? 'has-error': '')?>">
@@ -18,7 +18,7 @@
     </div>
     <div class="form-group <?= (!empty($confirmError = $this->getMessages('uConfirmError'))? 'has-error': '')?>">
         <label >Confirm password</label>
-        <input type="password" name="uConfirm" class="form-control"  placeholder="Podaj hasło">
+        <input type="password" name="uConfirm" class="form-control"  placeholder="Powtórz hasło">
         <div class="control-label"><?= $confirmError;?></div>
     </div>
 

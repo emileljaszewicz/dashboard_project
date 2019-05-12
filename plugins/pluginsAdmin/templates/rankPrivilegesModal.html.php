@@ -9,7 +9,7 @@
                    <?php if(in_array($panelObject->getPanelId(), $data['rankPanels'])):?>
                    checked="checked"
                    <?php endif;?>
-                     value="">
+                     value="<?php echo $panelObject->getPanelId() ?>">
                     <?= $panelObject->getPluginClassName()?>
                 </label>
             </div>

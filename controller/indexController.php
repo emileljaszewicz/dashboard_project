@@ -92,10 +92,11 @@ class indexController extends Controller
                 $this->setMessage($errorFieldName . 'Error', "Current ".ltrim(strtolower($errorFieldName), 'u')." ($result) already exists");
             }
             else {
-                $userRanks = new Userranks(['rankName' => 'Owner']);
+                $userRanks = new Userranks(['rankName' => 'PanelsUser']);
                 $rankId = $userRanks->getUserRankId();
                 $users->setLogin($this->postData['uLogin']);
                 $users->setPassword(md5($this->postData['uPassword']));
+                $users->setEmail($this->postData['uEmail']);
                 $users->setActive(1);
                 $users->setUserRankId($rankId);
                 $users->save();

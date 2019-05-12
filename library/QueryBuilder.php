@@ -59,13 +59,14 @@ class QueryBuilder
         $removeFields = [];
         foreach ($this->mysqlData as $field => $data){
             if(!in_array($field, $removeColls)) {
-                $removeColls[] = $field;
+                $removeColls[] = "$field = :$field";
+               // $removeFields[] = ":$field";
+                $this->queryBindValues[":$field"] = $data;
             }
-            $removeFields[] = ":$data";
-            $this->queryBindValues[":$data"] = $data;
         }
 
-        $this->query = "DELETE FROM $this->tableName WHERE (".implode(",", $removeColls).") IN (".implode(",", $removeFields).");";
+        //$this->query = "DELETE FROM $this->tableName WHERE (".implode(",", $removeColls).") IN (".implode(",", $removeFields).");";
+        $this->query = "DELETE FROM $this->tableName WHERE ".implode(' AND ', $removeColls);
 
         return $this->query;
     }
@@ -96,6 +97,7 @@ class QueryBuilder
             $q = str_replace('\\', '\\\\', $this->query) . ';';
 
             $dataToSent = $this->pdo->prepare($q);
+
             foreach ($this->queryBindValues as $valueName => $valueToExecute){
                 $dataToSent->bindValue($valueName, $valueToExecute);
             }
