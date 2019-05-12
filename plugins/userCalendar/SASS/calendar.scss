@@ -1,12 +1,42 @@
 #kalendarz_kontener{
+  @media only screen and (min-width : 700px){
+    #dni_miesiaca{
+      .kalendarz_pole{
+        padding:20px;
+      }
+    }
+  }
+  @media only screen and (max-width : 699px){
+    #dni_miesiaca{
+      .kalendarz_pole{
+        padding:5px;
+      }
+    }
+    #modal{
+      .event-container-label{
+        font-size: 12px;
+      }
+      form{
+        label{
+          font-size: 12px;
+        }
+        .saveEvent, .closeEvent, .removeEvent{
+          padding: 3px;
+          font-size: 12px;
+        }
+      }
+
+    }
+  }
+
   width:100%;
   margin: 10px auto;
 
   .dzien_tygodnia{
     display:table-cell;
+    text-align:center;
     font-family: Arial;
     color: #bababa;
-    padding:0vw 2vw 1vw 2vw;
   }
   .event{
     background: #eaeaea;
@@ -26,7 +56,6 @@
   .kalendarz_pole{
     display:table-cell;
     color: #010101;
-    padding:20px;
     border-right: 1px solid #d3d3d3;
     border-bottom: 1px solid #d3d3d3;
   }
@@ -41,20 +70,9 @@
   display:table-row;
 }
 #kalendarz_data{
-  margin-top:2vw;
   h1{
     display:inline-block;
-    margin-right:3vw;
-  }
-  input[type="submit"]{
-    width:3vw;
-    padding:0vw;
-    margin:0vw;
-  }
-  select{
-    margin-right:2vw;
-    width:10vw;
-    text-align:center;
+    //margin-right:3vw;
   }
 }
 

@@ -14,7 +14,9 @@ class PluginAccessor
             $instancePath = '\\'.str_replace('/','\\', $plugin->pluginControllersPath()).$controllerName;
             $controllerInstance = new $instancePath();
             $controllerRoutes = $controllerInstance->getRoutes();
+
             $controllerActionArrayIndex = array_search($functionName, $controllerRoutes);
+
             if(is_int($controllerActionArrayIndex)) {
                 $arr[] = [$controllerRoutes[$controllerActionArrayIndex], $instancePath];
             }
@@ -26,9 +28,15 @@ class PluginAccessor
 
             return (new $controllerInstancePath())->$controllerAction();
         }
-        else{
+        else if(sizeof($arr) > 0){
             return "To many Requests";//To do: Add error reporting for many route requests
         }
+        else{
+            return 'false';
+        }
+
+    }
+    public function hasFunction($functionName, Plugin $plugin){
 
     }
     private function getDirControllers($path){

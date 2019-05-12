@@ -1,52 +1,129 @@
-.userProfileContainer {
-  font-size: 14px;
-}
-.userProfileContainer .adminNavigation {
-  padding-top: 20px;
+.pluginAdminContainer {
+  padding: 0px;
+  background: white;
   height: 100%;
-  min-width: 200px;
-  text-align: left;
-  border-right: 1px solid silver;
 }
-.userProfileContainer .adminNavigation .link {
-  display: block;
-  padding: 5px 20px 5px 20px;
+@media only screen and (min-width: 700px) {
+  .pluginAdminContainer .navigationContainer {
+    float: left;
+    width: 200px;
+    height: 100%;
+    border-right: 1px solid silver;
+  }
+  .pluginAdminContainer .navigationContainer .link {
+    display: block;
+    padding: 5px 20px 5px 20px;
+    font-size: 15px;
+  }
+  .pluginAdminContainer .userProfileContainer {
+    overflow-y: auto;
+  }
+  .pluginAdminContainer .userProfileContainer .pageTitle {
+    font-size: 17px;
+    margin-bottom: 30px;
+  }
+}
+@media only screen and (max-width: 699px) {
+  .pluginAdminContainer {
+    overflow-y: auto;
+  }
+  .pluginAdminContainer .navigationContainer {
+    border-bottom: 1px solid silver;
+  }
+  .pluginAdminContainer .navigationContainer .link {
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    font-size: 12px;
+  }
+  .pluginAdminContainer .userProfileContainer .pageTitle {
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
+}
+.pluginAdminContainer .navigationContainer {
+  background: whitesmoke;
+}
+.pluginAdminContainer .navigationContainer .link {
   text-decoration: none;
-  font-size: 15px;
   color: black;
   cursor: pointer;
 }
-.userProfileContainer .adminNavigation .link:hover {
+.pluginAdminContainer .navigationContainer .link:hover {
   background: #e7e7e7;
 }
-.userProfileContainer .adminNavigation div.active {
-  color: #8c8c8c;
-  cursor: default;
+.pluginAdminContainer .userProfileContainer {
+  height: 100%;
+  padding: 10px;
 }
-.userProfileContainer .pageTitle {
+.pluginAdminContainer .userProfileContainer .pageTitle {
   display: inline-block;
   width: auto;
-  font-size: 17px;
   padding: 0px 40px 5px 40px;
-  margin-bottom: 10px;
   border-bottom: 1px solid silver;
 }
-.userProfileContainer .panel-heading {
+.pluginAdminContainer .userProfileContainer .pluginContainer {
+  margin-top: 10px;
+  border: 1px solid silver;
+}
+.pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-body, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-actions {
+  padding: 5px;
+}
+.pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header .plugin-name .label {
+  margin-right: 20px;
+  color: black;
+}
+.pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-body .details, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header .plugin-name, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-actions .actions {
+  display: table;
+  width: 100%;
+}
+@media only screen and (min-width: 700px) {
+  .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-body .details .label, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header .plugin-name .label, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-actions .actions .label {
+    width: 10%;
+    font-size: 13px;
+  }
+  .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-body .details .description, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header .plugin-name .description, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-actions .actions .description {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 699px) {
+  .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-body .details .label, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header .plugin-name .label, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-actions .actions .label {
+    width: 20%;
+    font-size: 11px;
+  }
+  .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-body .details .description, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header .plugin-name .description, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-actions .actions .description {
+    width: 80%;
+    font-size: 12px;
+  }
+}
+.pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-body .details .label, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header .plugin-name .label, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-actions .actions .label {
+  display: table-cell;
+  font-weight: bold;
+  color: black;
+}
+.pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-body .details .description, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header .plugin-name .description, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-actions .actions .description {
+  display: table-cell;
+}
+.pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-body .details .description button, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-header .plugin-name .description button, .pluginAdminContainer .userProfileContainer .pluginContainer .plugin-cont-actions .actions .description button {
+  font-size: 10px;
+  padding: 3px 5px 3px 5px;
+  margin-right: 10px;
+}
+.pluginAdminContainer .userProfileContainer .panel-heading {
   padding: 5px 10px 5px 10px;
   font-size: 15px;
 }
-.userProfileContainer .positionContainer .profileLabel, .userProfileContainer .positionContainer .posEdition {
+.pluginAdminContainer .userProfileContainer .positionContainer .profileLabel, .pluginAdminContainer .userProfileContainer .positionContainer .posEdition {
   display: inline-block;
   padding: 5px;
 }
-.userProfileContainer .positionContainer .profileLabel {
+.pluginAdminContainer .userProfileContainer .positionContainer .profileLabel {
   font-weight: bold;
   width: 150px;
 }
-.userProfileContainer .positionContainer .posEdition {
+.pluginAdminContainer .userProfileContainer .positionContainer .posEdition {
   font-size: 13px;
 }
-.userProfileContainer .passwordContainer {
+.pluginAdminContainer .userProfileContainer .passwordContainer {
   display: block;
 }
 

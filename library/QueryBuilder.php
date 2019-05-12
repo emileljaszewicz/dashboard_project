@@ -98,7 +98,6 @@ class QueryBuilder
             $dataToSent = $this->pdo->prepare($q);
             foreach ($this->queryBindValues as $valueName => $valueToExecute){
                 $dataToSent->bindValue($valueName, $valueToExecute);
-
             }
 
             if(!$dataToSent->execute()){
@@ -113,7 +112,6 @@ class QueryBuilder
     }
     public function getTableKeyData($keyName){
         $this->query = "SHOW KEYS FROM {$this->tableName} WHERE Key_name = '$keyName'";
-
 
         return $this->execQuery()->fetchAll();
     }

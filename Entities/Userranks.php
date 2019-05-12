@@ -15,7 +15,7 @@ class Userranks extends DBEntity
 {
     private $userRankId;
     private $rankName;
-
+    private $active;
     /**
      * @return mixed
      */
@@ -46,6 +46,22 @@ class Userranks extends DBEntity
     public function setRankName($rankName)
     {
         $this->rankName = $rankName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
     }
 
 

@@ -145,6 +145,13 @@ class DBEntity
 
         return 1;
     }
+    public function getPrimaryKeyName(){
+        $queryBuilder = $this->getQueryBuilder();
+        $queryBuilder->createQueryForTable($this->getEntityName());
+        $primaryKey = $queryBuilder->getTableKeyData('PRIMARY')[0]["Column_name"];
+
+        return $primaryKey;
+    }
     public function getPrimaryKeyValue(){
         $queryBuilder = $this->getQueryBuilder();
         $queryBuilder->createQueryForTable($this->getEntityName());
@@ -152,6 +159,16 @@ class DBEntity
         $primaryKeyFunctionName = 'get'.$this->getClassProperties()[$primaryKey];
 
         return $this->$primaryKeyFunctionName();
+    }
+    public function getCollection(){
+        $arrayCollection = new ArrayCollection();
+        foreach ($this->getPrimaryKeyValue() as $arrayIndex => $entityKeyId){
+            $selfObjectInstance = $this->__construct([$this->getPrimaryKeyName() => $entityKeyId]);
+
+            $arrayCollection->add(serialize($this));
+        }
+
+        return $arrayCollection;
     }
     private function getQueryBuilder(){
         $queryBuilderObject = new QueryBuilder();

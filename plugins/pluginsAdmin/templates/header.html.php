@@ -10,6 +10,7 @@
 <div class="container pluginAdminContainer">
 <div class="navigationContainer">
     <div  class="link" data-action="index">Lista pluginów</div>
+    <div  class="link" data-action="userRanks">Rangi użytkowników</div>
 </div>
 <div class="content-container">
     <div class="pageTitle"><?php echo $this->getPageTitle() ?></div>

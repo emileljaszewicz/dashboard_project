@@ -63,6 +63,7 @@ function panelModify(response, $element){
     return $element;
 }
 function getPanelData($container, $url, containerData = null, ){
+    localStorage['myKey'] = $(this).data('lastInsertedId');
     var ajaxRequest = ajaxFunction();
     var $loadSpinner = $('<div id="loadSpinner"></div>');
     var data = new FormData();
@@ -78,12 +79,14 @@ function getPanelData($container, $url, containerData = null, ){
         if(this.readyState == 4 && this.status == 200){
             $loadSpinner.appendLoadingSpinner(false);
             var responseData = this.responseText;
-            $container.html($(responseData));
-
+            if($(responseData).length > 0) {
+                $container.html($(responseData));
+            }
+            else{
+                getPanelData($container, 'index');
+            }
         }
         else{
-
-
                 var $lS = $loadSpinner.appendLoadingSpinner(true);
                 $lS.attr('style', $lS.find('div').attr('style'));
                 $lS.css({

@@ -1,5 +1,6 @@
 $(document).ready(function(){
 var $container = getPanelContainer();
+
 var panelId = $container.attr('id').split("panel_");
 var $containerForm = $container.find('form');
 var currentMonth = $containerForm.data('month');

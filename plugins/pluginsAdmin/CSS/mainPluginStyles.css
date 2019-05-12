@@ -108,5 +108,54 @@
   padding: 3px 5px 3px 5px;
   margin-right: 10px;
 }
+.pluginAdminContainer .content-container .panel:hover {
+  background: #f5f5f5;
+}
+.pluginAdminContainer .content-container .panel .panel-body .glyphicon-user {
+  display: inline-block;
+  margin-right: 10px;
+}
+.pluginAdminContainer .content-container .panel .panel-body .rankActions {
+  float: right;
+  display: inline-block;
+  margin-left: 20px;
+}
+.pluginAdminContainer .content-container .panel .panel-body .rankActions label {
+  display: inline-block;
+  font-weight: normal;
+  margin-right: 20px;
+}
+.pluginAdminContainer .content-container .panel .panel-body .rankActions .buttons button {
+  padding: 3px 5px 3px 5px;
+  margin-right: 7px;
+  font-size: 10px;
+}
+
+.rank-privileges-container {
+  width: 400px;
+  border: 2px solid #d2d2d2;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  overflow-y: auto;
+}
+.rank-privileges-container .rank-privileges-label {
+  background: #b3b3b3;
+}
+.rank-privileges-container .privileges-content {
+  position: relative;
+  height: 80%;
+  background: white;
+}
+.rank-privileges-container .buttons {
+  position: absolute;
+  bottom: 10px;
+  right: 5px;
+}
+.rank-privileges-container .buttons button {
+  font-size: 11px;
+  padding: 3px 5px 3px 5px;
+  margin-right: 10px;
+}
 
 /*# sourceMappingURL=mainPluginStyles.css.map */

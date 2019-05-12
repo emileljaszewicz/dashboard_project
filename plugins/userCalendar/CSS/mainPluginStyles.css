@@ -1,14 +1,64 @@
-.callendarContainer {
-  width: 90%;
-  margin: 0px auto;
+.calendarContainer {
+  overflow-y: auto;
+  background: whitesmoke;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
 }
-.callendarContainer .container-title-bar {
+@media only screen and (min-width: 700px) {
+  .calendarContainer .container-title-bar {
+    font-size: 17px;
+  }
+  .calendarContainer .date {
+    font-size: 20px;
+  }
+  .calendarContainer .navButtons .form-inline {
+    width: 300px;
+  }
+  .calendarContainer .navButtons .form-inline .control-label {
+    width: 50px;
+  }
+  .calendarContainer .navButtons .pager {
+    font-size: 15px;
+  }
+  .calendarContainer .navButtons .pager a .responsiveHide {
+    display: inline;
+  }
+}
+@media only screen and (max-width: 699px) {
+  .calendarContainer .container-title-bar {
+    font-size: 13px;
+  }
+  .calendarContainer .date {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .calendarContainer .navButtons .form-inline {
+    width: 200px;
+  }
+  .calendarContainer .navButtons .form-inline .control-label {
+    width: 50px;
+  }
+  .calendarContainer .navButtons .pager {
+    font-size: 12px;
+  }
+  .calendarContainer .navButtons .pager a {
+    padding: 3px 20px 3px 20px;
+  }
+  .calendarContainer .navButtons .pager a .responsiveHide {
+    display: none;
+  }
+}
+.calendarContainer .container-title-bar {
   display: inline-block;
   width: auto;
-  font-size: 17px;
   padding: 0px 40px 5px 40px;
   margin-top: 10px;
   border-bottom: 1px solid silver;
+}
+.calendarContainer .navButtons .pager a {
+  background: #f2f2f2;
+  font-size: 12px;
 }
 
 /*# sourceMappingURL=mainPluginStyles.css.map */

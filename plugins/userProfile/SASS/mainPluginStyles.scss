@@ -1,53 +1,136 @@
-.userProfileContainer{
-  font-size:14px;
-  .adminNavigation{
-    padding-top:20px;
-    height:100%;
-    min-width:200px;
-    text-align:left;
-    border-right: 1px solid silver;
-    .link{
-      display:block;
-      padding: 5px 20px 5px 20px;
-      text-decoration:none;
-      font-size:15px;
+.pluginAdminContainer{
+  @media only screen and (min-width : 700px){
+    .navigationContainer{
+      float:left;
+      width: 200px;
+      height:100%;
+      border-right: 1px solid silver;
+      .link {
+        display: block;
+        padding: 5px 20px 5px 20px;
+        font-size: 15px;
+      }
+    }
+    .userProfileContainer{
+      overflow-y:auto;
+      .pageTitle{
+        font-size: 17px;
+        margin-bottom:30px;
+      }
+    }
+  }
+  @media only screen and (max-width : 699px){
+    overflow-y:auto;
+    .navigationContainer{
+      border-bottom: 1px solid silver;
+      .link {
+        display: inline-block;
+        padding: 5px 10px 5px 10px;
+        font-size: 12px;
+      }
+    }
+    .userProfileContainer{
+      .pageTitle{
+        font-size: 13px;
+        margin-bottom:15px;
+      }
+    }
+  }
+  padding:0px;
+  background: white;
+  height: 100%;
+
+  .navigationContainer{
+    background: whitesmoke;
+    .link {
+      text-decoration: none;
       color: black;
       cursor: pointer;
-      &:hover{
+
+      &:hover {
         background: #e7e7e7;
       }
     }
-    div.active{
-      color: #8c8c8c;
-      cursor: default;
-    }
   }
-.pageTitle{
-  display:inline-block;
-  width:auto;
-  font-size: 17px;
-  padding: 0px 40px 5px 40px;
-  margin-bottom:10px;
-  border-bottom:1px solid silver;
-}
-  .panel-heading{
-    padding:5px 10px 5px 10px;
-    font-size:15px;
-  }
-  .positionContainer{
-    .profileLabel, .posEdition{
+  .userProfileContainer{
+    height:100%;
+    padding: 10px;
+
+    .pageTitle{
       display:inline-block;
-      padding:5px;
+      width:auto;
+      padding: 0px 40px 5px 40px;
+      border-bottom:1px solid silver;
     }
-    .profileLabel{
-      font-weight:bold;
-      width:150px;
+
+    .pluginContainer{
+      margin-top:10px;
+      border: 1px solid silver;
+      .plugin-cont-header, .plugin-cont-body, .plugin-cont-actions{
+        padding:5px;
+      }
+      .plugin-cont-header .plugin-name{
+        .label{
+          margin-right:20px;
+          color:black;
+        }
+      }
+      .plugin-cont-body .details, .plugin-cont-header .plugin-name, .plugin-cont-actions .actions{
+        @media only screen and (min-width : 700px){
+          .label{
+            width:10%;
+            font-size: 13px;
+          }
+          .description{
+            width:90%;
+          }
+        }
+        @media only screen and (max-width : 699px){
+          .label{
+            width:20%;
+            font-size: 11px;
+          }
+          .description{
+            width:80%;
+            font-size: 12px;
+          }
+        }
+        display:table;
+        width: 100%;
+        .label{
+          display:table-cell;
+          font-weight:bold;
+          color:black;
+        }
+        .description{
+          display:table-cell;
+          button{
+            font-size: 10px;
+            padding:3px 5px 3px 5px;
+            margin-right:10px;
+          }
+        }
+      }
     }
-    .posEdition{
-      font-size: 13px;
+    .panel-heading{
+      padding:5px 10px 5px 10px;
+      font-size:15px;
     }
-  }
-  .passwordContainer{
-    display:block;
+    .positionContainer{
+      .profileLabel, .posEdition{
+        display:inline-block;
+        padding:5px;
+      }
+      .profileLabel{
+        font-weight:bold;
+        width:150px;
+      }
+      .posEdition{
+        font-size: 13px;
+      }
+    }
+    .passwordContainer{
+      display:block;
+    }
   }
 }

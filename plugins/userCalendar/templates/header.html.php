@@ -9,6 +9,6 @@
 
 </head>
 <body>
-<div class="container" style="background: whitesmoke; min-width:300px; width: 100%;height: 100%; padding:0px;">
-    <div class="callendarContainer">
+
+    <div class="calendarContainer">
     <div class="container-title-bar"><?= $this->getPageTitle() ?></div>
