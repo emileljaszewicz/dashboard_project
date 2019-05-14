@@ -72,7 +72,7 @@ body {
 }
 
 .panel-alert {
-  position: absolute;
+  position: sticky;
   display: none;
   width: 90%;
   left: 0;

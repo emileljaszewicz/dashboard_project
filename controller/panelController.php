@@ -47,8 +47,10 @@ class panelController extends Controller
         echo json_encode($panelsArray);
     }
     public function showPanelContent(){
+        $sessionManager = $this->getSessionManager();
+        $sessionManager->addSessionData('panelId', (int)$this->postData['panelId']);
 
-        $panels = new Panels(["panelId" => $this->postData['panelId']]);
+        $panels = new Panels(["panelId" => $sessionManager->getSessionData('panelId')]);
         $pluginManager = new PluginManager($panels->getPluginInstance());
 
         return $pluginManager->getActionForPlugin($_GET['ajaxAction']);
@@ -67,8 +69,8 @@ class panelController extends Controller
      * @SkipSearching(skip(true))
      */
     public function getPluginAction(){
-
-        $panels = new Panels(["panelId" => $this->postData['panelId']]);
+        $sessionManager = $this->getSessionManager();
+        $panels = new Panels(["panelId" => $sessionManager->getSessionData('panelId')]);
         $pluginManager = new PluginManager($panels->getPluginInstance());
 
         $pluginManager->getActionForPlugin($_GET['pluginAction']);

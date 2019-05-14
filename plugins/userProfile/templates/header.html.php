@@ -13,5 +13,5 @@
         <div  class="link" data-action="index">Dane logowania</div>
     </div>
     <div class="userProfileContainer">
-        <div class="alert-danger panel-alert" style="cursor:pointer;top: 20px;"></div>
+        <div class="user_alert"></div>
         <div class="pageTitle"><?php echo $this->getPageTitle() ?></div>

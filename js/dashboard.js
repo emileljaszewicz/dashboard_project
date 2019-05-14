@@ -65,7 +65,7 @@ function panelModify(response, $element){
 function getPanelData($container, $url, containerData = null, ){
     localStorage['myKey'] = $(this).data('lastInsertedId');
     var ajaxRequest = ajaxFunction();
-    var $loadSpinner = $('<div id="loadSpinner"></div>');
+    var $loadSpinner = $('<div id="loadSpinner" style="width:100px; height:100px"></div>');
     var data = new FormData();
     data.append('otherData', JSON.stringify(containerData));
     if(containerData !== null && containerData.panelId !== undefined) {
@@ -90,10 +90,10 @@ function getPanelData($container, $url, containerData = null, ){
                 var $lS = $loadSpinner.appendLoadingSpinner(true);
                 $lS.attr('style', $lS.find('div').attr('style'));
                 $lS.css({
-                    "margin-left": $lS.getElementParams($($container)).toCenterX + "px",
-                    "margin-top": $lS.getElementParams($($container)).toCenterY + "px"
+                    "margin-left": $lS.getElementParams($container).toCenterX + "px",
+                    "margin-top": $lS.getElementParams($container).toCenterY + "px"
                 });
-                $($container).html($lS);
+            $container.html($lS);
         }
 
     }
@@ -104,7 +104,6 @@ function pluginAction($url, containerData = null, async = true, returnResponse =
     var responseContent = null;
     var ajaxRequest = ajaxFunction();
     var data = new FormData();
-    data.append('panelId', containerData.panelId);
     data.append('data', JSON.stringify(containerData));
     data.append('response', returnResponse);
 

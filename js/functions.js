@@ -69,9 +69,8 @@ jQuery.fn.getElementParams = function($jqueryObject = null){
 }
 jQuery.fn.appendLoadingSpinner = function($value){
     if($value === true){
-       var $spinnerContainer = $('<img src="styles/img/spinner.gif" width="100">');
+       var $spinnerContainer = $('<img src="styles/img/spinner.gif" width="80" height="80">');
        $spinnerContainer.addClass('spinner-border text-light');
-       $spinnerContainer.css({"width":"100px", "height":"100px"});
        $spinnerContainer.attr('role', 'status');
        $(this).append($spinnerContainer);
 
@@ -80,4 +79,13 @@ jQuery.fn.appendLoadingSpinner = function($value){
     else if($value === false){
         $(this).remove();
     }
+}
+//find examples of DOMSubtreeModified in the web
+jQuery.fn.addWatcher = function(){
+    $(this).bind('DOMSubtreeModified', function(e) {
+        $(this).data('watcherChanges', e);
+        $(this).trigger('change');
+
+        return $(this);
+    });
 }

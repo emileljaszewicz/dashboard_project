@@ -29,11 +29,11 @@ $(document).ready(function() {
 
                 }
 
-                $('.panel-alert').html(responseHTML).show('1000');
+                $('.user_alert').addAlert(true, 'danger', responseHTML);
                 return false;
             }
             else{
-                $('.panel-alert').hide('500');
+                $('.user_alert').addAlert(false);
             }
         }
     });
@@ -57,17 +57,13 @@ $(document).ready(function() {
 
                     responseHTML += "Field "+labelContent.text()+" "+message[1]+"</br>";
                 }
-
-                $('.panel-alert').html(responseHTML).show('1000');
+                $('.user_alert').addAlert(true, 'danger', responseHTML);
                 return false;
             }
             else{
-                $('.panel-alert').hide('500');
+                $('.user_alert').addAlert(false);
             }
-
         }
     });
-    $('.panel-alert').click(function () {
-        $(this).hide(500);
-    })
+
 });

@@ -62,4 +62,9 @@ class calendarPlugin extends Plugin
     {
         return "plugins/userCalendar/PluginControllers/";
     }
+
+    public function pluginSQL()
+    {
+        // TODO: Implement pluginSQL() method.
+    }
 }

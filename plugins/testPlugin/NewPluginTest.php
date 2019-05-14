@@ -59,4 +59,9 @@ class NewPluginTest extends Plugin
     {
         return "Test plugin";
     }
+
+    public function pluginSQL()
+    {
+        // TODO: Implement pluginSQL() method.
+    }
 }

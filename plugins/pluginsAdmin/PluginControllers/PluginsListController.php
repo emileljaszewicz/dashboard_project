@@ -77,6 +77,13 @@ class PluginsListController extends PluginController
 
         return "true";
     }
+    public function getDialog(){
+        $fileName = json_decode($this->postData['data'], true);
+        $pluginInstance = $this->getPanelEntityObject()->getPluginInstance();
+        $pluginPath = $pluginInstance->pluginPath();
+
+        return $this->pharseHTML($pluginPath.'/templates/dialogs/'.$fileName['fileName'].'.html.php', []);
+    }
     private function getInstalledPlugins(){
         $nonInstalled = [];
         $scanner = new Scanner();

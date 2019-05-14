@@ -64,4 +64,9 @@ class UserProfileSettings extends Plugin
     {
         return "plugins/userProfile/PluginControllers/";
     }
+
+    public function pluginSQL()
+    {
+        // TODO: Implement pluginSQL() method.
+    }
 }

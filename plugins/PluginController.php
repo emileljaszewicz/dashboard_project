@@ -41,7 +41,8 @@ class PluginController extends Controller
         return implode(PHP_EOL, $this->headerScripts).PHP_EOL;
     }
     protected function getPanelEntityObject(){
-        return new Panels(["panelId" => $this->postData['panelId']]);
+        $sessionManager = $this->getSessionManager();
+        return new Panels(["panelId" => $sessionManager->getSessionData('panelId')]);
     }
     public function getRoutes(){
         $routeCollection = new RouteCollection();

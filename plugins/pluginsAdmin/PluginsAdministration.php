@@ -62,4 +62,9 @@ class PluginsAdministration extends Plugin
     {
         return "Admin plugin list Panel";
     }
+
+    public function pluginSQL()
+    {
+        // TODO: Implement pluginSQL() method.
+    }
 }

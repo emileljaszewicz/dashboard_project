@@ -1,5 +1,4 @@
 
-
     <?php foreach($data['stats'] as $pluginStatus => $statusPluginData): ?>
     <?php foreach($statusPluginData as $pluginDetails): ?>
 

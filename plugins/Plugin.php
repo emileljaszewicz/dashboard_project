@@ -20,4 +20,5 @@ abstract class Plugin extends MagicMethods
     public abstract function pluginWidth();
     public abstract function pluginHeight();
     public abstract function pluginControllersPath();
+    public abstract function pluginSQL();
 }
