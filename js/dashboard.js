@@ -83,7 +83,7 @@ function getPanelData($container, $url, containerData = null, ){
                 $container.html($(responseData));
             }
             else{
-                $container.find('rel="nofollow"').remove();
+                $container.find('a [rel="nofollow"]').parent().remove();
                 $container.find('#top_10').remove();
                 getPanelData($container, 'index');
             }
