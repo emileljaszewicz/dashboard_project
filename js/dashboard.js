@@ -83,6 +83,8 @@ function getPanelData($container, $url, containerData = null, ){
                 $container.html($(responseData));
             }
             else{
+                $container.find('body div:first').remove();
+                $container.find('#top_10').remove();
                 getPanelData($container, 'index');
             }
         }
@@ -196,6 +198,7 @@ jQuery.fn.sizeBack = function(){
 
 $(document).ready(function(){
     $('#top_10').remove();
+    $('body div:first').remove();
     printPanels();
     $('.logout').click(function(){
        ajaxAction("index.php?task=panel&action=logout", false);
