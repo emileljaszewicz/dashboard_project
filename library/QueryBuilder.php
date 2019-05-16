@@ -113,7 +113,7 @@ class QueryBuilder
         }
     }
     public function getTableKeyData($keyName){
-        $this->query = "SHOW KEYS FROM {$this->tableName} WHERE Key_name = '$keyName'";
+        $this->query = "SHOW KEYS FROM ".strtolower($this->tableName)." WHERE Key_name = '$keyName'";
 
         return $this->execQuery()->fetchAll();
     }
