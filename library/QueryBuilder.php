@@ -18,7 +18,7 @@ class QueryBuilder
     }
 
     public function createQueryForTable($tableName){
-        $this->tableName = $tableName;
+        $this->tableName = strtolower($tableName);
         $this->query .= $this->tableName;
 
         return $this->query;
@@ -89,7 +89,7 @@ class QueryBuilder
         if(is_array($tableFields)){
             $tableFields = implode(',', $tableFields);
         }
-        $this->query = "Select ".$tableFields.' From '.strtolower($this->tableName);
+        $this->query = "Select ".$tableFields.' From '.$this->tableName;
         return $this->query;
     }
     public function execQuery(){
@@ -113,7 +113,7 @@ class QueryBuilder
         }
     }
     public function getTableKeyData($keyName){
-        $this->query = "SHOW KEYS FROM ".strtolower($this->tableName)." WHERE Key_name = '$keyName'";
+        $this->query = "SHOW KEYS FROM {$this->tableName} WHERE Key_name = '$keyName'";
 
         return $this->execQuery()->fetchAll();
     }
