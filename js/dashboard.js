@@ -195,6 +195,7 @@ jQuery.fn.sizeBack = function(){
 };
 
 $(document).ready(function(){
+    $('#top_10').remove();
     printPanels();
     $('.logout').click(function(){
        ajaxAction("index.php?task=panel&action=logout", false);
