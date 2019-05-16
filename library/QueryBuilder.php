@@ -89,7 +89,7 @@ class QueryBuilder
         if(is_array($tableFields)){
             $tableFields = implode(',', $tableFields);
         }
-        $this->query = "Select ".$tableFields.' From '.$this->tableName;
+        $this->query = "Select ".$tableFields.' From '.strtolower($this->tableName);
         return $this->query;
     }
     public function execQuery(){
