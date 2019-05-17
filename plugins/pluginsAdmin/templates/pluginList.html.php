@@ -36,6 +36,7 @@
                 </div>
             </div>
             <div class="plugin-cont-actions">
+                <?php if(!($pluginsAnaliser->getPanelEntity()->getPluginInstance() instanceof $data['PluginInstance'])):?>
                 <div class="actions">
                     <div class="label">Akcje:</div>
                     <?php if($pluginsAnaliser->getPanelEntity()->getActive() === 1):?>
@@ -49,6 +50,7 @@
                         <div class="description"><button data-action="install" type="button" class="btn btn-success">Zainstaluj</button></div>
                     <?php endif;?>
                 </div>
+            <?php endif;?>
             </div>
         </div>
         <?php endif;?>

@@ -6,7 +6,7 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox"
-                   <?php if(in_array($panelObject->getPanelId(), $data['rankPanels'])):?>
+                   <?php if(in_array($panelObject->getPanelId(), $data['rankPanels']) || $data['isAdminRank'] === true):?>
                    checked="checked"
                    <?php endif;?>
                      value="<?php echo $panelObject->getPanelId() ?>">

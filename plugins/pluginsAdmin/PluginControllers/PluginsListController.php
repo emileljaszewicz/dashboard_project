@@ -11,15 +11,19 @@ use plugins\PluginController;
 class PluginsListController extends PluginController
 {
     public function index(){
+        $userObject = $this->getUser()->getUserObiect();
         $requestManager = $this->getRequestManager();
         $nextPageInfo = $requestManager->getPostData('otherData');
+
         if(isset(json_decode($nextPageInfo)->nextPage)){
             $nextPage = json_decode($nextPageInfo)->nextPage;
         }
 
         $this->appendHeaderScripts(["styles" => [], "scripts" => []]);
         $this->setPageTitle('Lista dostępnych pluginów');
-        return $this->render('pluginList', ["stats" => array_merge($this->getInstalledPlugins(), $this->getExistedPlugins())]);
+        return $this->render('pluginList', [
+            "stats" => array_merge($this->getInstalledPlugins(), $this->getExistedPlugins()),
+            "PluginInstance" => $this->getPluginInstance()]);
     }
     public function secondAction(){
         $this->appendHeaderScripts(["styles" => ['aaa.css'], "scripts" => ["qqqq.js"]]);
@@ -41,9 +45,15 @@ class PluginsListController extends PluginController
         $pluginData = json_decode($this->postData['data']);
         $panels = new Panels(["panelId" => $pluginData->pluginId]);
         $panels->setActive(0);
-        $panels->save();
 
-        return 'true';
+        if(!$this->isInstanceOf($panels->getPluginInstance())) {
+            $panels->save();
+
+            return 'true';
+        }
+        else{
+            return 'false';
+        }
     }
     public function install(){
         try {
@@ -73,13 +83,20 @@ class PluginsListController extends PluginController
     public function unInstall(){
         $pluginData = json_decode($this->postData['data']);
         $panels = new Panels(["panelId" => $pluginData->pluginId]);
-        $panels->remove();
+        $pluginAdminInstance = $this->getPluginInstance();
 
-        return "true";
+        if(!$this->isInstanceOf($panels->getPluginInstance())) {
+            $panels->remove();
+
+            return "true";
+        }
+        else{
+            return "false";
+        }
     }
     public function getDialog(){
         $fileName = json_decode($this->postData['data'], true);
-        $pluginInstance = $this->getPanelEntityObject()->getPluginInstance();
+        $pluginInstance = $this->getPluginInstance();
         $pluginPath = $pluginInstance->pluginPath();
 
         return $this->pharseHTML($pluginPath.'/templates/dialogs/'.$fileName['fileName'].'.html.php', []);

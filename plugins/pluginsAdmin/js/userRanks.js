@@ -19,7 +19,6 @@ $(document).ready(function(){
         var $modal, data, rank_id, modalParams, $modalContainer, $checkboxes, count, checkboxArr;
         rank_id = $(this).closest('.panel').data('id');
         data = {
-            panelId: panel_id,
             rankId: rank_id
         }
             $modal = pluginAction('rankPrivileges', data, false, false);
@@ -45,8 +44,10 @@ $(document).ready(function(){
                         count++;
                     });
                     data.checkboxes = checkboxArr
-                    console.log(data);
+
                     pluginAction('savePrivileges', data);
+                    $panelContainer.find('.user_alert').addAlert(true, 'success', 'Zapisano');
+                    $modalContainer.remove();
                 }
             });
             if($panelContainer.find('#'+$modalContainer.attr('id')).length === 0) {

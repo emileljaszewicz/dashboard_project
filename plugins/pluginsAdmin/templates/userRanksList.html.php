@@ -7,11 +7,14 @@
         <div class="rankActions">
             <label></label>
             <span class="buttons">
+            <?php if(!($object->getUserRankObject() instanceof \userranks\Administrator)):?>
                 <?php if($object->getActive() === '1'):?>
                     <button type="button" class="btn  btn-warning switch">wyłącz</button>
                 <?php else:?>
                     <button type="button" class="btn  btn-success switch">włącz</button>
                 <?php endif; ?>
+            <?php endif; ?>
+
                     <button type="button" class="btn  btn-info settings">uprawnienia</button>
             </span>
         </div>

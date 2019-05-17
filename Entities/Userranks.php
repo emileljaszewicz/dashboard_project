@@ -10,6 +10,7 @@ namespace Entities;
 
 
 use library\DBEntity;
+use library\UsersCreator;
 
 class Userranks extends DBEntity
 {
@@ -64,5 +65,14 @@ class Userranks extends DBEntity
         $this->active = $active;
     }
 
+    /**
+     * @return UsersCreator
+     */
+    public function getUserRankObject(){
+        $usersCreator = new UsersCreator();
+        $usersCreator->findUser([$this->getPrimaryKeyValue()[0]['keyName'] => $this->getPrimaryKeyValue()[0]['keyValue']]);
+
+        return $usersCreator->getUserRankObject();
+    }
 
 }

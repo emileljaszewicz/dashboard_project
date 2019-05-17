@@ -5,13 +5,14 @@ namespace plugins;
 
 use controller\Controller;
 use Entities\Panels;
+use library\DBEntity;
 
 
 class PluginController extends Controller
 {
     private $headerScripts = [];
     protected function render($name, $data = null){
-        $pluginInstance = $this->getPanelEntityObject()->getPluginInstance();
+        $pluginInstance = $this->getPluginInstance();
         $pluginPath = $pluginInstance->pluginPath();
 
         $this->generateHeader("header", $pluginPath."/templates/");
@@ -23,8 +24,11 @@ class PluginController extends Controller
         }
         return $a;
     }
+    protected function getPluginInstance(){
+        return $this->getPanelEntityObject()->getPluginInstance();
+    }
     protected function appendHeaderScripts($data = []){
-        $pluginInstance = $this->getPanelEntityObject()->getPluginInstance();
+        $pluginInstance = $this->getPluginInstance();
         $pluginPath = $pluginInstance->pluginPath();
         if(array_key_exists('styles', $data)){
             foreach($data['styles'] as $dataStylePath){
@@ -48,6 +52,14 @@ class PluginController extends Controller
         $routeCollection = new RouteCollection();
 
         return $routeCollection->getRoutes($this);
+    }
+    protected function isInstanceOf($plugin){
+        if($this->getPluginInstance() instanceof $plugin){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     protected function pharseHTML($code, $data) {
 

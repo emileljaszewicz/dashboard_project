@@ -6,6 +6,7 @@ use Entities\Panels;
 use Entities\RankPanels;
 use Entities\Userranks;
 use plugins\PluginController;
+use userranks\Administrator;
 
 class UserRanksController extends PluginController
 {
@@ -15,14 +16,17 @@ class UserRanksController extends PluginController
 
         $this->setPageTitle('Rangi użytkowników');
         $this->appendHeaderScripts(["scripts" => ["userRanks.js"]]);
-        return $this->render('userRanksList', ["ranksObject" => $collection->getCollection()]);
+        return $this->render('userRanksList', [
+            "ranksObject" => $collection->getCollection(),
+            "AdminPluginInstance" => $this->getUser()->getUserRankObject()
+        ]);
     }
 
     public function rankSwitch(){
         $jsonData= json_decode($this->postData['data'], true);
         $userRanks = new Userranks(['userRankId' => (int)$jsonData['rankId']]);
 
-        if(!empty($userRanks->getUserRankId())){
+        if(!empty($userRanks->getUserRankId()) && !($userRanks->getUserRankObject() instanceof Administrator)){
 
             switch ($userRanks->getActive()){
                 case '1':
@@ -42,15 +46,22 @@ class UserRanksController extends PluginController
     public function rankPrivileges(){
         $jsonData= json_decode($this->postData['data'], true);
         $rankPanels = new RankPanels(['userRankId' => (int)$jsonData['rankId']]);
+        $rankInstance = ((new Userranks(['userRankId' => (int)$jsonData['rankId']]))->getUserRankObject() instanceof Administrator);
+
         $pluginInstance = $this->getPanelEntityObject()->getPluginInstance();
         $pluginPath = $pluginInstance->pluginPath();
+
         if(is_array($rankPanels->getPanelId())){
             $userPanelsData = $rankPanels->getPanelId();
         }
         else{
             $userPanelsData[] = $rankPanels->getPanelId();
         }
-        return $this->pharseHTML($pluginPath.'/templates/rankPrivilegesModal.html.php',['rankPanels' => $userPanelsData, 'panels' => (new Panels())->getCollection()->getCollection()]);
+        return $this->pharseHTML($pluginPath.'/templates/rankPrivilegesModal.html.php', [
+            'rankPanels' => $userPanelsData,
+            'panels' => (new Panels())->getCollection()->getCollection(),
+            'isAdminRank' => $rankInstance
+        ]);
     }
     public function savePrivileges(){
         $jsonData= json_decode($this->postData['data'], true);
