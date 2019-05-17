@@ -62,11 +62,14 @@ function panelModify(response, $element){
 
     return $element;
 }
-function getPanelData($container, $url, containerData = null, ){
+function getPanelData($container, $url, containerData){
     localStorage['myKey'] = $(this).data('lastInsertedId');
     var ajaxRequest = ajaxFunction();
     var $loadSpinner = $('<div id="loadSpinner" style="width:100px; height:100px"></div>');
     var data = new FormData();
+    if(typeof containerData === 'undefined'){
+        containerData = null;
+    }
     data.append('otherData', JSON.stringify(containerData));
     if(containerData !== null && containerData.panelId !== undefined) {
         $(this).data('lastInsertedId', containerData.panelId);
@@ -83,8 +86,6 @@ function getPanelData($container, $url, containerData = null, ){
                 $container.html($(responseData));
             }
             else{
-                $container.find('a [rel="nofollow"]').parent().remove();
-                $container.find('#top_10').remove();
                 getPanelData($container, 'index');
             }
         }
@@ -102,10 +103,20 @@ function getPanelData($container, $url, containerData = null, ){
     ajaxRequest.open("POST", "index.php?task=panel&action=showPanelContent&ajaxAction="+$url, true);
     ajaxRequest.send(data);
 }
-function pluginAction($url, containerData = null, async = true, returnResponse = true){
+function pluginAction($url, containerData, async, returnResponse){
     var responseContent = null;
     var ajaxRequest = ajaxFunction();
     var data = new FormData();
+
+    if(typeof containerData === 'undefined'){
+        containerData = null;
+    }if(typeof async === 'undefined'){
+        async = true;
+    }
+    if(typeof returnResponse === 'undefined'){
+        returnResponse = true;
+    }
+
     data.append('data', JSON.stringify(containerData));
     data.append('response', returnResponse);
 
@@ -128,12 +139,17 @@ function pluginAction($url, containerData = null, async = true, returnResponse =
 
     return responseContent;
 }
-function ajaxAction(url, async = true, requestData=null){
+function ajaxAction(url, async, requestData){
     var responseContent = null;
     var ajaxRequest = ajaxFunction();
     var data = new FormData();
     data.append('data', requestData);
-
+    if(typeof async === 'undefined'){
+        async = true;
+    }
+    if(typeof requestData === 'undefined'){
+        requestData=null;
+    }
     ajaxRequest.onreadystatechange = function () {
         if(this.readyState == 4 && this.status == 200){
             if(async === false) {
@@ -197,8 +213,6 @@ jQuery.fn.sizeBack = function(){
 };
 
 $(document).ready(function(){
-    $('#top_10').remove();
-    $('body div:first').remove();
     printPanels();
     $('.logout').click(function(){
        ajaxAction("index.php?task=panel&action=logout", false);

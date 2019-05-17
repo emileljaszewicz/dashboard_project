@@ -39,10 +39,13 @@ function responsiveHeight($height){
 
     return resizeHeight;
 }
-jQuery.fn.getElementParams = function($jqueryObject = null){
+jQuery.fn.getElementParams = function($jqueryObject){
     var documentWidth = null;
     var documentHeight = null;
 
+    if(typeof $jqueryObject === 'undefined'){
+        $jqueryObject = null;
+    }
     if($jqueryObject === null) {
         documentWidth = $(window).width();
         documentHeight = $(window).height();
