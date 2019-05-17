@@ -32,8 +32,8 @@ class settingsController extends PluginController
         $formValidation = [];
         $userObject = $this->getUser();
         $validator = $this->getValidator(["same" => ':attribute must be compared with previous password']);
-        $jsonFormData = json_decode($this->postData['data']);
-        $formValues = $jsonFormData->values;
+        $jsonFormData = json_decode($this->postData['data'], true);
+        $formValues = $jsonFormData['formValues'];
 
         foreach ($formValues as $inputName => $value){
 

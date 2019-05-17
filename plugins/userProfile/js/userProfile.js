@@ -45,7 +45,7 @@ $(document).ready(function() {
             var responseResult = null;
             var requestData = {
                 panelId: panelId[1],
-                values,
+                formValues: values,
             }
             responseResult = JSON.parse(pluginAction('saveData', requestData, false));
             if(responseResult.actionResponse !== true){
