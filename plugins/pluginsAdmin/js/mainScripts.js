@@ -17,7 +17,7 @@ $(document).ready(function(){
         var panelId = $container.attr('id').split("panel_");
         var $pluginDir = $(this).closest('.pluginContainer').find('.directory');
         var data = {
-            panelId: panelId[1],
+            panelId: parseInt(panelId[1]),
             pluginId: identificator,
         };
 

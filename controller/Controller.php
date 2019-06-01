@@ -1,6 +1,7 @@
 <?php
 namespace controller;
 
+use library\HTTPMethodHandlerFilter;
 use library\QueryBuilder;
 use library\ClassAutoInitializer;
 use library\RequestManager;
@@ -75,7 +76,9 @@ abstract class Controller extends ViewManager
 
         return $requestManager;
     }
-
+    protected function getHttpMethodFilter(){
+        return new HTTPMethodHandlerFilter();
+    }
     protected function redirect($redirectPath){
         $RequestManager = $this->getRequestManager();
 
