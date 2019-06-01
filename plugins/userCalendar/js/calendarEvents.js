@@ -1,7 +1,6 @@
 $(document).ready(function(){
 var $container = getPanelContainer();
 
-var panelId = $container.attr('id').split("panel_");
 var $containerForm = $container.find('form');
 var currentMonth = $containerForm.data('month');
 var currentYear = $containerForm.data('year');
@@ -13,7 +12,6 @@ $container.find('.next').click(function(){
         currentYear = (currentYear+1);
     }
     var data = {
-        panelId: panelId[1],
         next: {
             month: currentMonth,
             year: currentYear
@@ -31,7 +29,6 @@ $container.find('.next').click(function(){
             currentYear = (currentYear-1);
         }
         var data = {
-            panelId: panelId[1],
             next: {
                 month: currentMonth,
                 year: currentYear
@@ -50,7 +47,6 @@ $container.find('.next').click(function(){
          eventMonth = $container.find('form').data('month');
          eventYear = $container.find('form').data('year');
          data = {
-            panelId: panelId[1],
             eventDate: eventYear+'-'+eventMonth+'-'+eventDay
         };
          $modal = pluginAction('event', data, false, false);
@@ -64,7 +60,6 @@ $container.find('.next').click(function(){
              toSaveData  = {};
 
             toSaveData.eventDate = dateFormatting(eventYear+'-'+eventMonth+'-'+eventDay);
-            toSaveData.panelId = panelId[1];
             $modalForm.find('.modalData').each(function(){
 
                     formData[$(this).attr('name')] = $(this).val();

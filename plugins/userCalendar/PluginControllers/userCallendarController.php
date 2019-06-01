@@ -28,24 +28,28 @@ class userCallendarController extends PluginController
         return $this->pharseHTML($pluginPath.'/templates/modal.html.php', ['date' => date_format($date,"d-m-Y"), 'existedEvent' => $existedEvent]);
     }
     public function saveEvent(){
-        $eventModalData = json_decode($this->postData['data'], true);
-        $formData = $eventModalData['formData'];
+        $methodsFilter = $this->getHttpMethodFilter();
+        $eventModalData = $methodsFilter->setMethodsData(json_decode($this->postData['data'], true));
+        $formData = $eventModalData->getData('formData');
+        $eventDate = $eventModalData->getData('eventDate')->getValues();
+        $eventAction = $eventModalData->getData('eventAction')->getValues();
+
         $userOb = $this->getUser()->getUserObiect();
-        $calendarEvents = new CalendarEvents(['userId' => $userOb->getUserId(), 'eventDate' => $eventModalData['eventDate']]);
+        $calendarEvents = new CalendarEvents(['userId' => $userOb->getUserId(), 'eventDate' => $eventDate]);
 
         if(!empty($formData)) {
             if (empty($calendarEvents->getEventId())) {
                 $calendarEvents = new CalendarEvents();
             }
-            $calendarEvents->setEventName($formData['eventTitle']);
-            $calendarEvents->setDescription($formData['eventDescription']);
+            $calendarEvents->setEventName($formData->getData('eventTitle')->getValues());
+            $calendarEvents->setDescription($formData->getData('eventDescription')->getValues());
             $calendarEvents->setUserId($this->getUser()->getUserObiect()->getUserId());
-            $calendarEvents->setEventDate($eventModalData['eventDate']);
+            $calendarEvents->setEventDate($eventDate);
 
-            if ($eventModalData['eventAction'] === 'save') {
+            if ($eventAction === 'save') {
 
                 $calendarEvents->save();
-            } else if ($eventModalData['eventAction'] === 'remove') {
+            } else if ($eventAction === 'remove') {
 
                 $calendarEvents->remove();
             }

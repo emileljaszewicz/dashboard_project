@@ -10,6 +10,9 @@ use plugins\PluginController;
 
 class PluginsListController extends PluginController
 {
+    private $panels;
+
+
     public function index(){
         $userObject = $this->getUser()->getUserObiect();
         $requestManager = $this->getRequestManager();
@@ -32,10 +35,16 @@ class PluginsListController extends PluginController
     public function enable(){
         $pluginData = json_decode($this->postData['data']);
         $panels = new Panels(["panelId" => $pluginData->pluginId]);
-        $panels->setActive(1);
 
-        if($panels->save() && ($pluginData->pluginId !== null)) {
-            return 'true';
+        if($panels->getPanelId() !== null) {
+            $panels->setActive(1);
+
+            if ($panels->save()) {
+                return 'true';
+            }
+            else{
+                return 'Can`t continue executing this action';
+            }
         }
         else{
             return 'false';
@@ -44,12 +53,16 @@ class PluginsListController extends PluginController
     public function disable(){
         $pluginData = json_decode($this->postData['data']);
         $panels = new Panels(["panelId" => $pluginData->pluginId]);
-        $panels->setActive(0);
 
-        if(!$this->isInstanceOf($panels->getPluginInstance())) {
-            $panels->save();
+        if(!$this->isInstanceOf($panels->getPluginInstance()) && ($panels->getPanelId() !== null)) {
+            $panels->setActive(0);
 
-            return 'true';
+            if ($panels->save()) {
+                return 'true';
+            }
+            else{
+                return 'Can`t continue executing this action';
+            }
         }
         else{
             return 'false';
@@ -62,14 +75,18 @@ class PluginsListController extends PluginController
 
             $scanner->scanDirectory($pluginData->pluginPath);
             $scanner->searchFor(Scanner::CLASS_INSTANCE, "plugins\\Plugin");
-            $pluginInstancePath = array_map(function ($data) {
-                return $data["found"];
-            }, $scanner->startScan()[$pluginData->pluginPath]["additional"])[0];
-            $pluginInstancePath = ltrim($pluginInstancePath, '\\');
-            $pluginManager = new PluginManager(new $pluginInstancePath());
+            $scanResults =  (!empty( $existedPlugins = $scanner->startScan())?$existedPlugins[$pluginData->pluginPath]["additional"]: false);
+            if($scanResults) {
+                $pluginInstancePath = array_map(function ($data) {
+                    return $data["found"];
+                }, $scanResults)[0];
+                $pluginInstancePath = ltrim($pluginInstancePath, '\\');
+                $pluginManager = new PluginManager(new $pluginInstancePath());
 
-            $pluginManager->installPlugin();
+                $pluginManager->installPlugin();
 
+                return "true";
+            }
         }
         catch (\TypeError $e){
             echo $e->getMessage();
@@ -78,7 +95,7 @@ class PluginsListController extends PluginController
             echo $e->getMessage();
         }
 
-        return "true";
+        return "false";
     }
     public function unInstall(){
         $pluginData = json_decode($this->postData['data']);

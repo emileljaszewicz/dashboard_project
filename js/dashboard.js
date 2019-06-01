@@ -83,20 +83,24 @@ function getPanelData($container, $url, containerData){
             $loadSpinner.appendLoadingSpinner(false);
             var responseData = this.responseText;
             if($(responseData).length > 0) {
-                $container.html($(responseData));
+                if($container.data('enabled') === true) {
+                    $container.html($(responseData));
+                }
             }
             else{
                 getPanelData($container, 'index');
             }
         }
         else{
+            if($container.data('enabled') === true) {
                 var $lS = $loadSpinner.appendLoadingSpinner(true);
                 $lS.attr('style', $lS.find('div').attr('style'));
                 $lS.css({
                     "margin-left": $lS.getElementParams($container).toCenterX + "px",
                     "margin-top": $lS.getElementParams($container).toCenterY + "px"
                 });
-            $container.html($lS);
+                $container.html($lS);
+            }
         }
 
     }
@@ -192,6 +196,7 @@ jQuery.fn.sizeIn = function(response){
             width: resizeWidth,
             height: resizeHeight
         }, 200, function() {
+            $(this).data('enabled', true);
             getPanelData($(this), 'index', response);
         });
 };
@@ -204,6 +209,7 @@ jQuery.fn.sizeBack = function(){
             left: "0px",
             top: "0px",
         }, 200, "linear", function(){
+            $(this).data('enabled', false);
             $(this).removeClass('absolute-window');
             $(this).html($(this).data('beforeChange'));
             $('#todelete').remove();
