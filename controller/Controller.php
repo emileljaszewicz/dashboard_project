@@ -89,7 +89,7 @@ abstract class Controller extends ViewManager
         $sessionManager = $this->getSessionManager();
         $usersCreator = new UsersCreator();
         $usersCreator->findUser(['userId' => $sessionManager->getSessionData('userId')]);
-echo 'test';
+
         return $usersCreator;
     }
     protected function getValidator($customMessages = []){
