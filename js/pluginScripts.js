@@ -1,10 +1,12 @@
 jQuery.fn.addAlert = function(alertOpen,alertType,message){
-    var $html = $('<div class="alert-'+alertType+' panel-alert" style="cursor:pointer;top: 20px;border: 1px;"></div>');
-    if(typeof alertOpen === 'undefined'){
-        alertOpen = true;
-    }
+    var $html;
+
     if(typeof alertType === 'undefined'){
         alertType = 'success';
+    }
+    $html = $('<div class="alert-'+alertType+' panel-alert" style="cursor:pointer;top: 5px;"></div>');
+    if(typeof alertOpen === 'undefined'){
+        alertOpen = true;
     }
     if(typeof message === 'undefined'){
         message = null;

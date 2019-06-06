@@ -72,7 +72,6 @@ body {
 }
 
 .panel-alert {
-  position: sticky;
   display: none;
   width: 90%;
   left: 0;
@@ -80,6 +79,12 @@ body {
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
+}
+.panel-alert.alert-success {
+  border: 1px solid #5c805d;
+}
+.panel-alert.alert-danger {
+  border: 1px solid #ff5660;
 }
 
 #actionBar {

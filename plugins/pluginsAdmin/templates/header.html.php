@@ -15,5 +15,5 @@
     <div  class="link" data-action="userRanks">Rangi użytkowników</div>
 </div>
 <div class="content-container">
-    <div class="pageTitle"><?php echo $this->getPageTitle() ?></div>
     <div class="user_alert"></div>
+    <div class="pageTitle"><?php echo $this->getPageTitle() ?></div>

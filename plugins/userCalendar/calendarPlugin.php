@@ -20,14 +20,6 @@ class calendarPlugin extends Plugin
         return "templates/images/calendar.png";
     }
 
-    public function setUrlAction($urlAction, $actionArgs)
-    {
-
-        $pluginAccessor = new PluginAccessor();
-
-        $this->urlAction = $pluginAccessor->functionInit($urlAction, $this);
-    }
-
     public function getUrlAction()
     {
         return $this->urlAction;

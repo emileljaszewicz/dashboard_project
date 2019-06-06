@@ -10,9 +10,15 @@ abstract class Plugin extends MagicMethods
     protected $actionArgs;
     protected $templatePath;
 
+    public function setUrlAction($urlAction, $actionArgs)
+    {
+
+        $pluginAccessor = new PluginAccessor();
+
+        $this->urlAction = $pluginAccessor->functionInit($urlAction, $this);
+    }
     public abstract function pluginInfo();
     public abstract function panelImage();
-    public abstract function setUrlAction($urlAction, $actionArgs);
     public abstract function getUrlAction();
     public abstract function pluginPath();
     public abstract function getPluginClassName();

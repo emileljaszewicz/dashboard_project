@@ -31,13 +31,6 @@ class PluginsAdministration extends Plugin
         return "PluginsAdministration";
     }
 
-    public function setUrlAction($urlAction, $actionArgs)
-    {
-        $pluginAccessor = new PluginAccessor();
-
-        $this->urlAction = $pluginAccessor->functionInit($urlAction, $this);
-    }
-
     public function getUrlAction()
     {
         return $this->urlAction;

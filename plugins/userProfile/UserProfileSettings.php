@@ -22,13 +22,6 @@ class UserProfileSettings extends Plugin
         return "templates/images/userProfile.png";
     }
 
-    public function setUrlAction($urlAction, $actionArgs)
-    {
-
-        $pluginAccessor = new PluginAccessor();
-
-        $this->urlAction = $pluginAccessor->functionInit($urlAction, $this);
-    }
 
     public function getUrlAction()
     {
