@@ -11,7 +11,8 @@
 <div id="panelDialog"></div>
 <div class="container pluginAdminContainer">
 <div class="navigationContainer">
-    <div  class="link" data-action="index">Lista pluginów</div>
+    <div  class="link" data-action="index">Zainstalowane pluginy</div>
+    <div  class="link" data-action="existedPlugins">Istniejące pluginy</div>
     <div  class="link" data-action="userRanks">Rangi użytkowników</div>
 </div>
 <div class="content-container">

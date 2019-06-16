@@ -5,12 +5,11 @@ $(document).ready(function(){
 
     $container.find('.navigationContainer .link').click(function(e){
         var linkAction = $(this).data('action');
-
         getPanelData($container, linkAction);
     });
 
     $container.find('.pluginContainer').find('button').click(function(){
-
+        var lastUrlRequest = getLocalStorageUrl();
         var $modal;
         var action = $(this).data('action');
         var identificator = parseInt($(this).closest('.pluginContainer').data('id'));
@@ -40,7 +39,8 @@ $(document).ready(function(){
                                 $( this ).dialog( "close" );
                                 $('.user_alert').addAlert(true, 'success', "Poprawnie zainstalowano plugin");
                                 setTimeout(function(){
-                                    getPanelData($container, 'index');
+                                    console.log(lastUrlRequest);
+                                    getPanelData($container, lastUrlRequest.ajaxAction+"&nextPage="+lastUrlRequest.nextPage);
                                 }, 2500);
                             }
                         }
@@ -66,27 +66,27 @@ $(document).ready(function(){
             var actionData = JSON.parse(pluginAction(action, data, false));
 
             if (actionData.actionResponse === 'true') {
-                getPanelData($container, 'index');
+                getPanelData($container, lastUrlRequest.ajaxAction+"&nextPage="+lastUrlRequest.nextPage);
             }
         }
 
     });
     $container.find('.pluginAdminContainer').find('.page').click(function(){
         var newPage = $(this).data('pageId');
-        console.log(newPage);
+        var lastRequest = getLocalStorageUrl();
         var data = {
             nextPage: newPage,
         };
-        getPanelData($container, 'index', data);
+        getPanelData($container, lastRequest.ajaxAction+"&nextPage="+newPage, data);
 
     });
 
     function getDialog(dialogFileName){
-        var panel_Id = $container.attr('id').split("panel_")[1];
+        //var panel_Id = $container.attr('id').split("panel_")[1];
         var data = {
-            panelId: panel_Id,
+            //panelId: panel_Id,
             fileName: dialogFileName
-        }
+        };
         var $dialogHtml = pluginAction('getDialog', data, false, false);
 
         return $dialogHtml;

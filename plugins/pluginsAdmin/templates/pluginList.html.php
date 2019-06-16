@@ -1,11 +1,11 @@
 
-    <?php foreach($data['stats'] as $pluginStatus => $statusPluginData): ?>
+    <?php foreach(unserialize($data['stats']['elements']) as $pluginStatus => $statusPluginData): ?>
     <?php foreach($statusPluginData as $pluginDetails): ?>
 
             <?php
-        $ob = unserialize($pluginDetails);
+       // $ob = unserialize($pluginDetails);
 
-       $pluginsAnaliser = new \plugins\pluginsAdmin\Classes\PluginsAnaliser(unserialize($pluginDetails));
+       $pluginsAnaliser = new \plugins\pluginsAdmin\Classes\PluginsAnaliser($pluginDetails);
        $panel = $pluginsAnaliser->getPluginDetails();
 
             ?>
@@ -79,5 +79,12 @@
     <?php endforeach;?>
 
     <?php endforeach;?>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+    <?php for ($i = 0; $i < $data['stats']['pages']; $i++){
+       // echo '<div class="page" data-page-id="'.$i.'">'.($i+1).'</div>';
+        echo '<li class="page page-item '.(($data['stats']['currentPage'] === $i)? 'active':'').'" data-page-id="'.$i.'"><a class="page-link" href="#">'.($i+1).'</a></li>';
+    }?>
+        </ul>
+    </nav>
 
-<!--<div class="page" data-page-id="2">2</div><div class="page" data-page-id="3">3</div>-->

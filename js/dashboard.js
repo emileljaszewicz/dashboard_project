@@ -63,10 +63,13 @@ function panelModify(response, $element){
     return $element;
 }
 function getPanelData($container, $url, containerData){
-    localStorage['myKey'] = $(this).data('lastInsertedId');
+    //localStorage['myKey'] = $(this).data('lastInsertedId');
+    var url = "index.php?task=panel&action=showPanelContent&ajaxAction="+$url;
     var ajaxRequest = ajaxFunction();
     var $loadSpinner = $('<div id="loadSpinner" style="width:100px; height:100px"></div>');
     var data = new FormData();
+
+    setLocalStorageUrl(url);
     if(typeof containerData === 'undefined'){
         containerData = null;
     }
@@ -104,14 +107,16 @@ function getPanelData($container, $url, containerData){
         }
 
     }
-    ajaxRequest.open("POST", "index.php?task=panel&action=showPanelContent&ajaxAction="+$url, true);
+    ajaxRequest.open("POST", url, true);
     ajaxRequest.send(data);
 }
 function pluginAction($url, containerData, async, returnResponse){
+    var url = "index.php?task=panel&action=getPluginAction&pluginAction="+$url;
     var responseContent = null;
     var ajaxRequest = ajaxFunction();
     var data = new FormData();
 
+    setLocalStorageUrl(url);
     if(typeof containerData === 'undefined'){
         containerData = null;
     }if(typeof async === 'undefined'){
@@ -136,9 +141,8 @@ function pluginAction($url, containerData, async, returnResponse){
         else{
 
         }
-
     }
-    ajaxRequest.open("POST", "index.php?task=panel&action=getPluginAction&pluginAction="+$url, async);
+    ajaxRequest.open("POST", url, async);
     ajaxRequest.send(data);
 
     return responseContent;

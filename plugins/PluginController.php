@@ -11,6 +11,7 @@ use library\DBEntity;
 class PluginController extends Controller
 {
     private $headerScripts = [];
+    protected $elements = [];
     protected function render($name, $data = null){
         $pluginInstance = $this->getPluginInstance();
         $pluginPath = $pluginInstance->pluginPath();
@@ -71,4 +72,5 @@ class PluginController extends Controller
         fclose ( $tmp );
         return $ret;
     }
+
 }

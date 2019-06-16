@@ -39,6 +39,21 @@ function responsiveHeight($height){
 
     return resizeHeight;
 }
+function setLocalStorageUrl(url){
+    var urlParserLocalStorage = localStorage;
+
+    urlParserLocalStorage.setItem('urlParser', url);
+}
+function getLocalStorageUrl(){
+    var storedUrl = localStorage.getItem('urlParser').split('index.php?');
+    var urlGetSegments = storedUrl[1].split('&');
+    var urlGetChain = [];
+    for(var i in urlGetSegments){
+        var urlGet = urlGetSegments[i].split('=');
+        urlGetChain[urlGet[0]] = urlGet[1];
+    }
+    return urlGetChain;
+}
 jQuery.fn.getElementParams = function($jqueryObject){
     var documentWidth = null;
     var documentHeight = null;

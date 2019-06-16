@@ -85,6 +85,10 @@ class QueryBuilder
         $this->query .= " Where ".implode(' And ', $queryfields);
         return $this->query;
     }
+    public function limit($min, $max){
+        $this->query .= " LIMIT $min, $max ";
+        return $this->query;
+    }
     public function selectData($tableFields = '*'){
         if(is_array($tableFields)){
             $tableFields = implode(',', $tableFields);
@@ -95,7 +99,7 @@ class QueryBuilder
     public function execQuery(){
         try {
             $q = str_replace('\\', '\\\\', $this->query) . ';';
-
+//var_dump($q);
             $dataToSent = $this->pdo->prepare($q);
 
             foreach ($this->queryBindValues as $valueName => $valueToExecute){

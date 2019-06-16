@@ -169,7 +169,7 @@ class DBEntity
             foreach ($tableKeyData['keyValue'] as $primaryKeyValue) {
                 $this->__construct([$tableKeyData['keyName'] => $primaryKeyValue]);
 
-                $arrayCollection->add(serialize($this));
+                $arrayCollection->add($this);
             }
         }
 

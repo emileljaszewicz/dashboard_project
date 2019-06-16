@@ -15,8 +15,8 @@ class Scanner
     public function scanDirectory($directoryPath){
         $this->directoryPath = $directoryPath;
     }
-    public function searchFor($CONSTANT_VALUE, $searchData){
-        $this->constSearchResults = ["constant" => $CONSTANT_VALUE, "search" => $searchData];
+    public function searchFor($CONSTANT_VALUE, $searchData=null){
+        $this->constSearchResults[] = ["conditions" => $CONSTANT_VALUE, "search" => $searchData];
     }
     public function startScan(){
         return $this->scan($this->directoryPath);
@@ -27,7 +27,7 @@ class Scanner
     }
     private function scan($directorypath){
         $directories = (is_dir($directorypath)? scandir($directorypath): []);
-
+        $additionals = [];
         foreach ($directories as $directory){
 
             if(is_dir($directorypath.'/'.$directory) && !in_array($directory, ['.','..'])) {
@@ -35,8 +35,17 @@ class Scanner
                 $this->scan($directorypath.'/'.$directory);
             }
             else if(is_file($directorypath.'/'.$directory)){
+                foreach ($this->getSearchFor() as $condition){
+                    if(is_string($condition['conditions'])){
+                        $additionals[] = $this->searchConditions($condition, $directorypath.'/'.$directory);
+                    }
+                    else if(is_callable($condition['conditions'])){
+                        $function = $condition['conditions'];
+                        call_user_func_array($function, [$this, &$additionals]);
+                    }
+                }
                 $this->scanArrayResult[$directorypath]['dirFiles'][] = $directory;
-                $this->scanArrayResult[$directorypath]['additional'][] = $this->searchConditions($this->getSearchFor()["constant"], $this->getSearchFor()["search"], $directorypath.'/'.$directory);
+                $this->scanArrayResult[$directorypath]['additional'] = $additionals;
             }
         }
         return $this->scanArrayResult;
@@ -55,20 +64,22 @@ class Scanner
         }
         return false;
     }
-    private function searchConditions($CONSTANT_VALUE, $searchData, $directoryfile){
-        switch ($CONSTANT_VALUE){
+    private function searchConditions($searchConditions, $directoryfile){
+
+        switch ($searchConditions['conditions']){
             case 'CLASS_INSTANCE':
                 if(explode('.',$directoryfile)[1] == 'php') {
                     $classNameSpace = str_replace('/', '\\', explode('.', $directoryfile)[0]);
                     $objectPath = "\\" . $classNameSpace;
                     $classReflection = new \ReflectionClass($objectPath);
 
-                    if($classReflection->getParentClass() !== false && $classReflection->getParentClass()->getName() == $searchData){
+                    if($classReflection->getParentClass() !== false && $classReflection->getParentClass()->getName() == $searchConditions["search"]){
                         return ["found" => $objectPath];
                     }
                 }
-
+                break;
         }
+
 
         return null;
     }

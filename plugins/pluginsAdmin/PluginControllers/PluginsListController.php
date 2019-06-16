@@ -10,28 +10,26 @@ use plugins\PluginController;
 
 class PluginsListController extends PluginController
 {
-    private $panels;
-
+    private $panels = [];
 
     public function index(){
-        $userObject = $this->getUser()->getUserObiect();
-        $requestManager = $this->getRequestManager();
-        $nextPageInfo = $requestManager->getPostData('otherData');
+        $this->setPageTitle('Zainstalowane pluginy');
+        $paginationData = $this->getExistedPlugins()->setPagination();
 
-        if(isset(json_decode($nextPageInfo)->nextPage)){
-            $nextPage = json_decode($nextPageInfo)->nextPage;
-        }
-
-        $this->appendHeaderScripts(["styles" => [], "scripts" => []]);
-        $this->setPageTitle('Lista dostępnych pluginów');
         return $this->render('pluginList', [
-            "stats" => array_merge($this->getInstalledPlugins(), $this->getExistedPlugins()),
+            "stats" => $paginationData,
             "PluginInstance" => $this->getPluginInstance()]);
     }
-    public function secondAction(){
-        $this->appendHeaderScripts(["styles" => ['aaa.css'], "scripts" => ["qqqq.js"]]);
-        return $this->render('test2');
+    public function existedPlugins(){
+        $this->setPageTitle('Lista niezainstalowanych pluginów');
+        $paginationData = $this->getInstalledPlugins()->setPagination();
+
+
+        return $this->render('pluginList', [
+            "stats" => $paginationData,
+            "PluginInstance" => $this->getPluginInstance()]);
     }
+
     public function enable(){
         $pluginData = json_decode($this->postData['data']);
         $panels = new Panels(["panelId" => $pluginData->pluginId]);
@@ -118,11 +116,14 @@ class PluginsListController extends PluginController
 
         return $this->pharseHTML($pluginPath.'/templates/dialogs/'.$fileName['fileName'].'.html.php', []);
     }
-    private function getInstalledPlugins(){
+    private function getInstalledPlugins($minIndex = 0, $maxIndex = 9999){
+        $elements = 0;
+        $i = 0;
         $nonInstalled = [];
         $scanner = new Scanner();
         $scanner->scanDirectory('plugins');
         $scanner->searchFor(Scanner::CLASS_INSTANCE, "plugins\\Plugin");
+
         $scanResults = $scanner->startScan();
 
         foreach ($scanResults as $directoryPath => $diretoryData){
@@ -135,25 +136,32 @@ class PluginsListController extends PluginController
                     $plugins = new Panels(['pluginClassName' => $pluginName, 'pluginNameSpace' => rtrim(ltrim($pluginpath, '\\'), '\\')]);
 
                     if($plugins->getPluginInstance() === null){
-
-                        $plugins->setPluginNameSpace(rtrim(ltrim($pluginpath, '\\'), '\\'));
-                        $plugins->setPluginClassName($pluginName);
-                        $plugins->setActive('Nie zainstalowany.');
-                        $nonInstalled['nonInstalled'][] = serialize($plugins);
-
+                        if($i >= $minIndex && $i < $minIndex+$maxIndex) {
+                           $plugins->setPluginNameSpace(rtrim(ltrim($pluginpath, '\\'), '\\'));
+                           $plugins->setPluginClassName($pluginName);
+                           $plugins->setActive('Nie zainstalowany.');
+                           $nonInstalled['nonInstalled'][] = $plugins;
+                            $elements++;
+                       }
+                        $i++;
                     }
                 }
             }
         }
-
-        return $nonInstalled;
+        $this->panels = ['elements'=>serialize($nonInstalled), 'methodName' => __METHOD__, 'pluginsCount' => $elements];
+       // return $nonInstalled;
+        return $this;
     }
-    private function getExistedPlugins(){
+    private function getExistedPlugins($min = 0, $max=9999){
+        $elements = 0;
         $existedPlugins = [];
         $queryBuilder = $this->queryBuilder();
 
         $queryBuilder->createQueryForTable('panels');
         $queryBuilder->selectData();
+        $queryBuilder->limit($min,$max);
+
+
         $queryResults = $queryBuilder->execQuery()->fetchAll(\PDO::FETCH_ASSOC);
 
         foreach ($queryResults as $panelRow){
@@ -163,19 +171,39 @@ class PluginsListController extends PluginController
             if($pluginOb !== null) {
                 if($plugins->getActive() === '1'){
                     $plugins->setActive(1); //Active
-                    $existedPlugins['active'][] = serialize($plugins);
+                    $existedPlugins['active'][] = $plugins;
+                    $elements++;
                 }
                 else if($plugins->getActive() !== '1'){
                     $plugins->setActive(2); //Disabled
-                    $existedPlugins['nonActive'][] = serialize($plugins);
+                    $existedPlugins['nonActive'][] = $plugins;
+                    $elements++;
                 }
             }
             else{
                 $plugins->setPluginClassName($plugins->getPluginClassName());
                 $plugins->setActive('Nie istnieje ale jest dostępny w bazie danych.');
-                $existedPlugins['nonExisted'][] = serialize($plugins);
+                $existedPlugins['nonExisted'][] = $plugins;
+                $elements++;
             }
         }
-        return $existedPlugins;
+
+        $this->panels = ['elements'=>serialize($existedPlugins), 'methodName' => __METHOD__, 'pluginsCount' => $elements];
+        return $this;
+    }
+    private function setPagination(){
+        $httpFilter = $this->getHttpMethodFilter();
+        $nextPageData = $httpFilter->setMethodsData([json_decode($this->postData['otherData'], true), $_GET])->getData('nextPage');
+        $nextPageNumber = (int)$nextPageData->getValues();
+        $recordsPerPage = 2;
+        $minRowsOffset = ($nextPageNumber > 0)? $nextPageNumber*$recordsPerPage : 0;
+
+        $pages = (($this->panels['pluginsCount']/$recordsPerPage) > 1 && $this->panels['pluginsCount'] > $recordsPerPage)? ($this->panels['pluginsCount']/$recordsPerPage) : 0;
+
+        call_user_func_array($this->panels['methodName'], [$minRowsOffset, $recordsPerPage]);
+        $this->panels['pages'] = $pages;
+        $this->panels['currentPage'] = $nextPageNumber;
+
+       return $this->panels;
     }
 }

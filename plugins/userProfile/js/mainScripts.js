@@ -29,11 +29,12 @@ $(document).ready(function(){
     });
     $container.find('.userProfileContainer').find('.page').click(function(){
         var newPage = $(this).data('pageId');
+        var lastRequest = getLocalStorageUrl();
         console.log(newPage);
         var data = {
             nextPage: newPage,
         };
-        getPanelData($container, 'index', data);
+        getPanelData($container,  lastRequest.ajaxAction, data);
 
     })
 });
