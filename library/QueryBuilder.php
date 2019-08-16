@@ -20,10 +20,10 @@ class QueryBuilder
     public function createQueryForTable($tableName){
         $this->tableName = strtolower($tableName);
         $this->query .= $this->tableName;
-
         return $this->query;
     }
     public function prepareData($tableField, $dataToExecute){
+
         foreach ($this->mysqlData as $field => $data){
             if(array_key_exists($tableField, $this->mysqlData)){
                 throw new \Exception("Fields name $tableField already exists in query statement");
@@ -99,7 +99,7 @@ class QueryBuilder
     public function execQuery(){
         try {
             $q = str_replace('\\', '\\\\', $this->query) . ';';
-//var_dump($q);
+
             $dataToSent = $this->pdo->prepare($q);
 
             foreach ($this->queryBindValues as $valueName => $valueToExecute){

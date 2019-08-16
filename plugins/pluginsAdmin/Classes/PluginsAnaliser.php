@@ -20,9 +20,6 @@ class PluginsAnaliser
         if(($pluginObject instanceof Plugin)){
             return $this->getPluginObject($pluginObject);
         }
-//        else if(is_object($pluginPath) && (new $pluginPath instanceof Plugin)){
-//            return $this->getPluginObject(new $pluginPath);
-//        }
         else{
             return $this->panel;
         }
@@ -35,7 +32,7 @@ class PluginsAnaliser
         if($status === 1){
             return "Aktywny.";
         }
-        else if($status === 2){
+        else if($status === 0){
             return "Wyłączony.";
         }
         else {

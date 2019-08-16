@@ -12,10 +12,20 @@ use Rakit\Validation\Validator;
 
 abstract class Controller extends ViewManager
 {
-    protected $postData;
+    public $postData;
+    private $controllerData = [];
+
     public function __construct()
     {
         $this->postData = $_POST;
+    }
+
+    public function getData($dataName){
+        return $this->controllerData[$dataName];
+    }
+
+    public function setData($dataName,$controllerData){
+        $this->controllerData[$dataName] = $controllerData;
     }
 
     public function getMessages($messageType){
@@ -31,12 +41,14 @@ abstract class Controller extends ViewManager
             return null;
         }
     }
+
     protected function setMessage($messageType, $essageContent){
         $errors = [];
         $sessionManager = $this->getSessionManager();
         $errors[$messageType][] = $essageContent;
         $sessionManager->addSessionData($messageType, $errors[$messageType]);
     }
+
     protected function loadmodel($name, $path = 'model/'){
         $path = $path.$name.'Model.php';
         $modelclassName = $name.'Model';
@@ -46,6 +58,7 @@ abstract class Controller extends ViewManager
 
         return $ob;
     }
+
     protected function render($name, $data = null){
         $this->generateHeader("header");
         $this->appendBody($name, $data);
@@ -56,29 +69,35 @@ abstract class Controller extends ViewManager
         }
 
     }
+
     protected function queryBuilder (){
         $queryBuilder = new QueryBuilder();
 
         return $queryBuilder;
     }
+
     protected function getHelper($helperKey){
         $helper = new ClassAutoInitializer();
 
         return $helper->getInitializedObject($helperKey);
     }
+
     protected function getSessionManager(){
         $sessionManager = new SessionManager();
 
         return $sessionManager;
     }
+
     protected function getRequestManager(){
         $requestManager = new RequestManager();
 
         return $requestManager;
     }
+
     protected function getHttpMethodFilter(){
         return new HTTPMethodHandlerFilter();
     }
+
     protected function redirect($redirectPath){
         $RequestManager = $this->getRequestManager();
 
@@ -92,6 +111,7 @@ abstract class Controller extends ViewManager
 
         return $usersCreator;
     }
+
     protected function getValidator($customMessages = []){
         return new Validator($customMessages);
     }

@@ -5,21 +5,13 @@ use plugins\PluginController;
 
 class settingsController extends PluginController
 {
-    public function index(){
+    private $rules_for_post_name = [];
+    private $post_data_db_mapping;
 
-        $this->setPageTitle("Ustawienia profilu użytkownika");
-        $this->appendHeaderScripts(["styles" => [], "scripts" => ["specialFormatFields.js","userProfile.js", "mainScripts.js"]]);
-
-        return $this->render('userProfileSettings', ["user" => $this->getUser()->getUserObiect()]);
-    }
-    public function saveData(){
-        $dbFields = [
-            'uName' => 'userName',
-            'login' => 'login',
-            'newPassword' => 'password|md5',
-            'uEmail' => 'email'
-        ];
-        $validateFilters = [
+    public function __construct()
+    {
+        parent::__construct();
+        $this->rules_for_post_name = [
             'login' => 'required|min:6',
             'uName' => 'regex:/^[a-zA-Z]+$/',
             'oldPassword' => 'required',
@@ -27,26 +19,33 @@ class settingsController extends PluginController
             'passwordConfirm' => 'required|same:newPassword',
             'uEmail' => 'regex:/^([a-zA-Z0-9\.\-_]{3,})@([a-zA-Z0-9]){2,}\.([a-zA-Z]){2,}$/'
         ];
+        $this->post_data_db_mapping = [
+            'uName' => 'userName',
+            'login' => 'login',
+            'newPassword' => ['password', function($currentPostElement){
+                $postValue = current(array_values($currentPostElement));
 
-        $fieldsToValidate = [];
-        $formValidation = [];
-        $userObject = $this->getUser();
+                return md5($postValue);
+            }],
+            'uEmail' => 'email'
+        ];
+    }
+
+    public function index(){
+
+        $this->setPageTitle("Ustawienia profilu użytkownika");
+        $this->appendHeaderScripts(["styles" => [], "scripts" => ["specialFormatFields.js","userProfile.js", "mainScripts.js"]]);
+
+        return $this->render('userProfileSettings', ["user" => $this->getUser()->getUserObiect()]);
+    }
+
+    public function saveData(){
         $validator = $this->getValidator(["same" => ':attribute must be compared with previous password']);
+
         $jsonFormData = json_decode($this->postData['data'], true);
-        $formValues = $jsonFormData['formValues'];
+        $validationRules = $this->getValidationRulesFromPostData($jsonFormData['formValues']);
 
-        foreach ($formValues as $inputName => $value){
-
-            $fieldsToValidate[$inputName] = $value;
-            $formValidation[$inputName] = $validateFilters[$inputName];
-        }
-        if(in_array('oldPassword', array_keys($fieldsToValidate))){
-            $fieldsToValidate['actualPassword'] = md5($fieldsToValidate['oldPassword']);
-            $fieldsToValidate['oldPassword'] = $userObject->getUserObiect()->getPassword();
-            $formValidation['oldPassword'] = 'same:actualPassword';
-        }
-
-        $validation = $validator->make($fieldsToValidate,$formValidation);
+        $validation = $validator->make($validationRules['filteredPostData'],$validationRules['rulesForPostData']);
         $validation->validate();
 
         if ($validation->fails()) {
@@ -54,29 +53,59 @@ class settingsController extends PluginController
             return $errors->firstOfAll();
 
         } else {
-            $queryBuilder = $this->queryBuilder();
-            $queryBuilder->createQueryForTable('users');
-            $filteredPostData = array_filter($validation->getValidatedData(), function($postName) use ($dbFields) {
-                return in_array($postName, array_keys($dbFields));
-            }, ARRAY_FILTER_USE_KEY);
 
-            foreach ($filteredPostData as $postName => $postValue){
-                $fieldAction = explode("|", $dbFields[$postName]);
-
-                if(count($fieldAction) > 1){
-
-                    $queryBuilder->prepareData($fieldAction[0], $fieldAction[1]($postValue));
-                }
-                else {
-                    $queryBuilder->prepareData($dbFields[$postName], $postValue);
-                }
-                unset($filteredPostData[$postName]);
-            }
-            $queryBuilder->updateData();
-            $queryBuilder->where(['userId' => $userObject->getUserObiect()->getUserId()]);
-            $queryBuilder->execQuery();
+            $this->saveValidatedData($validationRules['filteredPostData']);
 
             return true;
         }
+    }
+
+    private function getValidationRulesFromPostData(array $postData){
+        $userObject = $this->getUser();
+        $formValidation = [];
+        $fieldsToValidate = [];
+        
+        foreach ($postData as $inputName => $value){
+            if(!array_key_exists($inputName,$this->rules_for_post_name) )
+                continue;
+
+            $fieldsToValidate[$inputName] = $value;
+            $formValidation[$inputName] = $this->rules_for_post_name[$inputName];
+        }
+
+        if(in_array('oldPassword', array_keys($fieldsToValidate))){
+            $fieldsToValidate['actualPassword'] = md5($fieldsToValidate['oldPassword']);
+            $fieldsToValidate['oldPassword'] = $userObject->getUserObiect()->getPassword();
+            $formValidation['oldPassword'] = 'same:actualPassword';
+        }
+        
+        return ['filteredPostData' => $fieldsToValidate, 'rulesForPostData' => $formValidation];
+    }
+
+    private function saveValidatedData(array $postData){
+        $userObject = $this->getUser();
+        $queryBuilder = $this->queryBuilder();
+        $queryBuilder->createQueryForTable('users');
+
+        foreach ($postData as $postName => $postValue){
+            if(!array_key_exists($postName,$this->post_data_db_mapping) )
+                continue;
+
+            $mappingDataToSave = $this->post_data_db_mapping[$postName];
+            if(is_array($mappingDataToSave) && is_callable(end($mappingDataToSave))){
+                $mappedDbFieldName = reset($mappingDataToSave);
+                $queryBuilder->prepareData($mappedDbFieldName, $this->formatPostData([$postName => $postValue], end($mappingDataToSave)));
+            }
+            else {
+                $queryBuilder->prepareData($mappingDataToSave, $postValue);
+            }
+        }
+        $queryBuilder->updateData();
+        $queryBuilder->where(['userId' => $userObject->getUserObiect()->getUserId()]);
+        $queryBuilder->execQuery();
+    }
+
+    private function formatPostData($postData, callable $functionForPostData){
+        return call_user_func_array($functionForPostData, [$postData]);
     }
 }

@@ -13,7 +13,7 @@ $(document).ready(function() {
             data[$inputName] = values;
             var requestData = {
                 panelId: panelId[1],
-                values:data,
+                formValues:data,
             }
 
             responseResult = JSON.parse(pluginAction('saveData', requestData, false));
