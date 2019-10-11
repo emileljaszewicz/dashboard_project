@@ -39,4 +39,13 @@ class HTTPMethodHandlerFilter
             return $formattedArray;
 
     }
+    public static function handleGet($index){
+        $data = filter_input(INPUT_GET, $index);
+        return $data;
+    }
+    public static function handlePost($index){
+        $data = filter_input(INPUT_POST, $index);
+        return $data;
+    }
+
 }

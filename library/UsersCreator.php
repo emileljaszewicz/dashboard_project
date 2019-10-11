@@ -16,6 +16,11 @@ class UsersCreator extends QueryBuilder
 
         return $this->userData;
     }
+
+    /**
+     * @return Users
+     * @throws \Exception
+     */
     public function getUserObiect(){
         $pdoData = $this->userData;
 
@@ -33,5 +38,15 @@ class UsersCreator extends QueryBuilder
         else{
             return new \userranks\Owner();
         }
+    }
+
+    /**
+     * @return Users
+     * @throws \Exception
+     */
+    public static function createFromSession(){
+        $sessionManager = new SessionManager();
+        $user = new Users(['userId' => $sessionManager->getSessionData('userId')]);
+        return $user;
     }
 }

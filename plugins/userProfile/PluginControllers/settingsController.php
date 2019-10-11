@@ -34,7 +34,7 @@ class settingsController extends PluginController
     public function index(){
 
         $this->setPageTitle("Ustawienia profilu użytkownika");
-        $this->appendHeaderScripts(["styles" => [], "scripts" => ["specialFormatFields.js","userProfile.js", "mainScripts.js"]]);
+        $this->appendHeaderScripts(["styles" => [], "scripts" => ["js/specialFormatFields.js","js/userProfile.js", "js/mainScripts.js"]]);
 
         return $this->render('userProfileSettings', ["user" => $this->getUser()->getUserObiect()]);
     }

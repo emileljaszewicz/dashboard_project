@@ -79,10 +79,11 @@ jQuery.fn.getElementParams = function($jqueryObject){
     elementParameters.left = elementPosition.left;
     elementParameters.right = documentWidth - (elementPosition.left+elementWidth);
     elementParameters.top = elementPosition.top;
-    elementParameters.bottom = documentHeight - (elementPosition.top+elementHeight)
+    elementParameters.bottom = documentHeight - (elementPosition.top+elementHeight);
     elementParameters.elementWidth = elementWidth;
     elementParameters.toCenterX = (centerLeft - elementPosition.left);
     elementParameters.toCenterY = (centerTop - elementPosition.top);
+
     return elementParameters;
 }
 jQuery.fn.appendLoadingSpinner = function($value){

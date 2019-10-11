@@ -1,6 +1,6 @@
 var enabled = false;
 function printPanels() {
-    var ajaxRequest =ajaxFunction();
+    var ajaxRequest = ajaxFunction();
 
     ajaxRequest.onreadystatechange = function () {
         var $pageLoader = $('#loader');
@@ -13,7 +13,7 @@ function printPanels() {
 
             var interval = 1;
             for (var i = 0; i < response.length; i++) {
-                const panel = $(response[i].divHtml).delay(interval).fadeIn(1000);
+                var panel = $(response[i].divHtml).delay(interval).fadeIn(1000);
 
                 $('#showPanels').append(panelModify(response[i],panel));
                 interval += 3;
@@ -33,7 +33,7 @@ function printPanels() {
 
 function panelModify(response, $element){
     var $elementDiv = $element.find('.panel-content');
-    $elementDiv.click(function(e){
+    $elementDiv.unbind('click').on('click',function(e){
         var floatedDif = $('.absolute-window');
         e.stopPropagation();
         // e.preventDefault();
@@ -216,7 +216,7 @@ jQuery.fn.sizeBack = function(){
             $(this).data('enabled', false);
             $(this).removeClass('absolute-window');
             $(this).html($(this).data('beforeChange'));
-            $('#todelete').remove();
+           // $('#todelete').remove();
             enabled = false;
         });
     return $(this);

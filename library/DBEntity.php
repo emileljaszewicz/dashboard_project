@@ -8,40 +8,23 @@ use Entities\Panels;
 
 class DBEntity
 {
+
     private $rowId;
     private $arrayValues;
-
+    private $queryMode = false;
+    private $rowExists = false;
     public function __construct($rowId = null)
     {
 
         if(!empty($rowId) && !is_array($rowId)) {
             throw new \Exception("Value idData must be an array");
         }
+
         $this->rowId = $rowId;
+        $entityRowData = $this->getEntityData($this->rowId)->getPdoArray();
+        $this->rowExists = (!empty($entityRowData));
 
-        foreach ($this->getEntityData($this->rowId)->getPdoArray() as $iterate => $obParams){
-
-            foreach ($obParams as $entityField => $value){
-                foreach ($this->getClassProperties() as $fieldName => $methodName){
-                    if(strtolower($fieldName) == strtolower($entityField)){
-                        if(!is_array($this->rowId)){
-                            $this->arrayValues[$entityField][] = $value;
-                        }
-                        else if(is_array($this->rowId) && count(array_column($this->getEntityData($this->rowId)->getPdoArray(), $entityField)) > 1){
-
-                            $this->arrayValues[$entityField][] = $value;
-                        }
-                        else{
-                            $this->arrayValues[$entityField] = $value;
-                        }
-
-                        $setMethod = 'set'.$methodName;
-                        $this->$setMethod($this->arrayValues[$entityField]);
-                    }
-
-                }
-            }
-        }
+        $this->prepareSettersFromRowData($entityRowData);
     }
     public function __call($name, $arguments)
     {
@@ -108,8 +91,6 @@ class DBEntity
 
         $classProperties = $this->getClassProperties();
 
-        //$queryBuilder->createQueryForTable($this->getEntityName());
-
         foreach ($classProperties as $entityField => $value){
             $methodName = 'get'.$value;
             if(!is_array($this->$methodName()) && !is_object($this->$methodName())) {
@@ -119,6 +100,8 @@ class DBEntity
                 $queryBuilder->prepareData($entityField, $this->$methodName()->getPrimaryKeyValue()[0]['keyValue']);
             }
         }
+
+
         if($this->rowId === null){
            $queryBuilder->insertData();
         }
@@ -129,6 +112,7 @@ class DBEntity
 
         return $queryBuilder->execQuery();
     }
+
     public function remove(){
 
 
@@ -174,6 +158,49 @@ class DBEntity
         }
 
         return $arrayCollection;
+    }
+    public function setMode($mode){
+        $this->queryMode = $mode;
+
+        return $this;
+    }
+    private function getPassedEntityValues(){
+        $objectEntityData = [];
+
+        foreach ($this->getClassProperties() as $entityField => $value){
+            $methodName = 'get'.$value;
+
+            $objectEntityData[$entityField] = $this->$methodName();
+        }
+
+        return $objectEntityData;
+    }
+    private function prepareSettersFromRowData(array $rowData){
+        foreach ($rowData as $iterate => $obParams){
+
+            foreach ($obParams as $entityField => $value){
+                foreach ($this->getClassProperties() as $fieldName => $methodName){
+                    if(strtolower($fieldName) == strtolower($entityField)){
+                        if(!is_array($this->rowId)){
+                            $this->arrayValues[$entityField][] = $value;
+                        }
+                        else if(is_array($this->rowId) && count(array_column($this->getEntityData($this->rowId)->getPdoArray(), $entityField)) > 1){
+
+                            $this->arrayValues[$entityField][] = $value;
+                        }
+                        else{
+                            $this->arrayValues[$entityField] = $value;
+                        }
+
+                        $setMethod = 'set'.$methodName;
+                        $this->$setMethod($this->arrayValues[$entityField]);
+                    }
+
+                }
+            }
+        }
+
+        return $this;
     }
     private function getQueryBuilder(){
         $queryBuilderObject = new QueryBuilder();

@@ -1,6 +1,7 @@
 .pluginAdminContainer {
   padding: 0px;
   background: white;
+  width: 100%;
   height: 100%;
 }
 @media only screen and (min-width: 700px) {
@@ -35,8 +36,7 @@
     padding: 5px 10px 5px 10px;
     font-size: 12px;
   }
-  .pluginAdminContainer .content-container positi
-  .pageTitle {
+  .pluginAdminContainer .content-container .pageTitle {
     font-size: 13px;
     margin-bottom: 15px;
   }

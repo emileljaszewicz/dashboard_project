@@ -15,7 +15,7 @@ class UserRanksController extends PluginController
         $collection = $userRanks->getCollection();
 
         $this->setPageTitle('Rangi użytkowników');
-        $this->appendHeaderScripts(["scripts" => ["userRanks.js"]]);
+        $this->appendHeaderScripts(["scripts" => ["js/userRanks.js"]]);
         return $this->render('userRanksList', [
             "ranksObject" => $collection->getCollection(),
             "AdminPluginInstance" => $this->getUser()->getUserRankObject()

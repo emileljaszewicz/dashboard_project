@@ -12,7 +12,7 @@ class userCallendarController extends PluginController
 
         $calendar = new Calendar(date('m'), date('Y'));
         $this->setPageTitle('Kalendarium wydarzeń');
-        $this->appendHeaderScripts(['scripts' => ['calendarEvents.js']]);
+        $this->appendHeaderScripts(['scripts' => ['js/calendarEvents.js']]);
         return $this->render('calendarEvents', ["dynamicCalendar" => $this->getDate(date('m'), date('Y')), "currentCalendar" => $calendar]);
     }
 

@@ -12,6 +12,7 @@ class PluginController extends Controller
 {
     private $headerScripts = [];
     protected $elements = [];
+
     protected function render($name, $data = null){
         $pluginInstance = $this->getPluginInstance();
         $pluginPath = $pluginInstance->pluginPath();
@@ -33,12 +34,12 @@ class PluginController extends Controller
         $pluginPath = $pluginInstance->pluginPath();
         if(array_key_exists('styles', $data)){
             foreach($data['styles'] as $dataStylePath){
-                $this->headerScripts[] = '<link rel="stylesheet" type="text/css" href="'.$pluginPath."/CSS/".$dataStylePath.'">';
+                $this->headerScripts[] = '<link rel="stylesheet" type="text/css" href="'.$pluginPath."/".$dataStylePath.'">';
             }
         }
         if(array_key_exists('scripts', $data)){
             foreach($data['scripts'] as $dataScriptPath){
-                $this->headerScripts[] = '<script src="'.$pluginPath."/js/".$dataScriptPath.'" ></script>';
+                $this->headerScripts[] = '<script src="'.$pluginPath."/".$dataScriptPath.'" ></script>';
             }
         }
     }
