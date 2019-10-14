@@ -17,6 +17,7 @@ class WeatherConditions
     private static $label;
     private static $windSpeed;
     private static $temperature;
+    private static $weatherIcon;
 
     const YAHOO_CONDITIONS = [
         0 =>[
@@ -275,6 +276,14 @@ class WeatherConditions
             self::$temperature = self::$jsonData->get('temperature')->value();
         }
         return  self::$temperature;
+    }
+    public static function getWeatherIcon(){
+        if(self::$weatherIcon === null){
+            //Todo: add missing yahoo icons
+           // self::$weatherIcon = self::YAHOO_CONDITIONS[self::$jsonData->get('code')->value()];
+            self::$weatherIcon = "http://l.yimg.com/a/i/us/we/52/".self::$jsonData->get('code')->value().".gif";
+        }
+        return  self::$weatherIcon;
     }
     public static function getLabel(){
         if(self::$label === null){

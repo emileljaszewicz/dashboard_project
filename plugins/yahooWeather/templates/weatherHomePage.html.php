@@ -9,7 +9,8 @@ $pluginPath = $data['pluginPath'];
         <div class="media">
             <div class="media-left media-middle">
                 <a href="#">
-                    <img class="media-object" src="plugins/yahooWeather/templates/images/sunny.png" width="100">
+<!--                    <img class="media-object" src="plugins/yahooWeather/templates/images/sunny.png" width="100">-->
+                    <img class="media-object" src="<?= $jsonParser->condition->get('condition')::getWeatherIcon()?>" width="50">
                 </a>
             </div>
             <div class="media-left text-center">
