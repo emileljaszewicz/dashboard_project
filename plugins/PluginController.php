@@ -34,12 +34,26 @@ class PluginController extends Controller
         $pluginPath = $pluginInstance->pluginPath();
         if(array_key_exists('styles', $data)){
             foreach($data['styles'] as $dataStylePath){
-                $this->headerScripts[] = '<link rel="stylesheet" type="text/css" href="'.$pluginPath."/".$dataStylePath.'">';
+                if(strpos($dataStylePath, '*') === 0){
+                    $stylesPluginPath = null;
+                    $dataStylePath = str_replace('*', '', $dataStylePath);
+                }
+                else{
+                    $stylesPluginPath = $pluginPath.'/';
+                }
+                $this->headerScripts[] = '<link rel="stylesheet" type="text/css" href="'.$stylesPluginPath.$dataStylePath.'">';
             }
         }
         if(array_key_exists('scripts', $data)){
             foreach($data['scripts'] as $dataScriptPath){
-                $this->headerScripts[] = '<script src="'.$pluginPath."/".$dataScriptPath.'" ></script>';
+                if(strpos($dataScriptPath, '*') === 0){
+                    $scriptsPluginPath = null;
+                    $dataScriptPath = str_replace('*', '', $dataScriptPath);
+                }
+                else{
+                    $scriptsPluginPath = $pluginPath.'/';
+                }
+                $this->headerScripts[] = '<script src="'.$scriptsPluginPath.$dataScriptPath.'" ></script>';
             }
         }
     }
@@ -73,5 +87,10 @@ class PluginController extends Controller
         fclose ( $tmp );
         return $ret;
     }
+    private function getRootPath(){
+        $pluginInstance = $this->getPluginInstance();
+        $pluginPath = $pluginInstance->pluginPath();
 
+        return "../../$pluginPath/";
+    }
 }

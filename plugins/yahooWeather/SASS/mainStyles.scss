@@ -12,6 +12,9 @@
     border-bottom:1px solid silver;
     font-size: 20px;
   }
+  .panel-body{
+    padding:0px;
+  }
   table{
     &.darker-color{
       background: #f2f1f1;
@@ -19,5 +22,28 @@
     &.table-bordered{
       border: 1px solid red;
     }
+  }
+  .weather-theme {
+    .owl-item {
+      .owl-date{
+        padding-top:10px;
+      }
+      .scrollable{
+        width: 105px;
+        overflow-x:hidden;
+      }
+    }
+  }
+  .darker-color{
+    background: #f2f1f1;
+  }
+  .pagination{
+    &.owl-naw{
+      margin: 0px;
+    }
+  }
+  .owl-nav .owl-dots{
+    padding:0px;
+    display:none;
   }
 }

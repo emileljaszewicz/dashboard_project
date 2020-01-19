@@ -17,7 +17,13 @@ class WeatherDisplayController extends PluginController
         $pageTitle = (strlen($cityName) > 0 ? "Pogoda dla miasta $cityName na {$jsonParser->pubDate->value()}" : "Wybierz miasto");
 
         $this->appendHeaderScripts([
-            'scripts' => ["components/js/search.js"
+            'styles' => [
+                '*node_modules/owl.carousel/dist/assets/owl.carousel.min.css'
+            ],
+            'scripts' => [
+                "components/js/search.js",
+                "*node_modules/owl.carousel/dist/owl.carousel.min.js",
+                "components/js/weatherNextDays.js"
             ]]);
 
         $this->setPageTitle($pageTitle);

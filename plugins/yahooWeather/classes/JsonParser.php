@@ -56,6 +56,7 @@ class JsonParser
         $this->condition = WeatherConditions::append($this->condition);
         $this->wind = WeatherConditions::append($this->wind);
         $this->pubDate = (new ArrayParser(['pubDate' => date('d.m.Y H:m', $this->pubDate->value())]))->get('pubDate');
+        $this->forecasts = (new NextDaysForecast($parsedJsonData));
 
     }
     private function init(){

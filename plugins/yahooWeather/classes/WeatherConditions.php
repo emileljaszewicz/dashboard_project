@@ -259,9 +259,6 @@ class WeatherConditions
             case $data > 22.5:
                 return "NE";
                 break;
-            default:
-                return "N";
-                break;
         }
     }
 
@@ -281,7 +278,8 @@ class WeatherConditions
         if(self::$weatherIcon === null){
             //Todo: add missing yahoo icons
            // self::$weatherIcon = self::YAHOO_CONDITIONS[self::$jsonData->get('code')->value()];
-            self::$weatherIcon = "http://l.yimg.com/a/i/us/we/52/".self::$jsonData->get('code')->value().".gif";
+           // self::$weatherIcon = "http://l.yimg.com/a/i/us/we/52/".self::$jsonData->get('code')->value().".gif";
+            self::$weatherIcon = "https://s.yimg.com/os/mit/media/m/weather/images/icons/l/".self::$jsonData->get('code')->value()."d-100567.png";
         }
         return  self::$weatherIcon;
     }

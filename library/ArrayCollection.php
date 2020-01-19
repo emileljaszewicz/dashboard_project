@@ -14,4 +14,12 @@ class ArrayCollection
             return unserialize($collectionObject);
         }, $this->collectionArray);
     }
+    public function getFirst(){
+        $unSerializedCollection = $this->getCollection();
+        return reset($unSerializedCollection);
+    }
+    public function getLast(){
+        $unSerializedCollection = $this->getCollection();
+        return end($unSerializedCollection);
+    }
 }
